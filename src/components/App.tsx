@@ -16,46 +16,34 @@ const App = () => {
         { id: v1(), title: 'GraphQL', isDone: false, },
     ]);
 
-    const removeTask = (id: string) => {
-       const filtredTasks =  tasks.filter(task => task.id !== id);
-       setTasks(filtredTasks);
-    }
+    const [filter, setFilter] = useState<FilterType>('all');
 
-    const addTask = (title: string) => {
-        const newTask: TasksType = { id: v1(), title: title, isDone: false,};
-        setTasks([newTask, ...tasks]);
-    }
-
-    const changeTaskStatus = (id: string, status: boolean) => {
-       const changedTasks = tasks.map(t => t.id === id ? {...t, isDone: status} : t);
-       setTasks(changedTasks);
-    }
-
-    let [filter, setFilter] = useState<FilterType>('all');
-
-    let filtredTasks: TasksType[] = tasks;
-
-    if(filter === 'active') {
-        filtredTasks = filtredTasks.filter(task => task.isDone === false);
-    }
-
-    if(filter === 'completed') {
-        filtredTasks = filtredTasks.filter(task => task.isDone === true);
+    const getFiltredTasks = (tasks: TasksType[]) => {
+        if (filter === 'active') return tasks.filter(t => t.isDone === false);
+        if (filter === 'completed') return tasks.filter(t => t.isDone === true);
+        return tasks;
     }
 
     const changeFilter = (filter: FilterType) => setFilter(filter);
+    const removeTask = (id: string) => setTasks(tasks.filter(t => t.id !== id));
+    const changeTaskStatus = (id: string, status: boolean) => {
+        setTasks(tasks.map(t => t.id === id ? {...t, isDone: status} : t));
+    }
+    const addTask = (title: string) => {
+        setTasks([...tasks, {id: v1(), title: title, isDone: false}]);
+    }
 
     //UI:
     return (
         <div className="App">
             <Todolist
-            title="What to lern"
-            tasks={filtredTasks}
-            activFilter={filter}
-            removeTask={removeTask}
-            changeFilter={changeFilter}
-            addTask={addTask}
-            changeTaskStatus={changeTaskStatus} />
+                title='What to lern'
+                tasks={getFiltredTasks(tasks)}
+                changeFilter={changeFilter}
+                removeTask={removeTask}
+                changeTaskStatus={changeTaskStatus}
+                addTask={addTask}
+                filter={filter} />
         </div>
     );
 }

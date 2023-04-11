@@ -1,34 +1,35 @@
-import React, { FC } from "react";
-import { TasksListType } from "../types";
+import React, { ChangeEvent, FC } from "react";
+import { TasksType } from "../types";
 
-const Taskslist: FC<TasksListType> = (props) => {
-    
-    const tasksItems: JSX.Element | JSX.Element[] =
+type TaskListPropsType = {
+    tasks: TasksType[];
+    removeTask: (id: string) => void;
+    changeTaskStatus: (id: string, isDone: boolean) => void;
+}
+
+const Taskslist: FC<TaskListPropsType> = (props) => {
+    const taskItems: JSX.Element[] | JSX.Element =
         props.tasks.length
-        ? props.tasks.map((task) => {
+            ? props.tasks.map(t => {
 
-            const taskClassName = task.isDone ? 'task-done' : 'task';
-            const removeTask = () => props.removeTask(task.id);
-            const changeTaskStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
-                props.changeTaskStatus(task.id, e.currentTarget.checked);
-            };
+            const removeTask = () => props.removeTask(t.id);
+            const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked);
 
             return (
-                <li key={task.id}>
+                <li className="task" key={t.id}>
                     <input
                         type="checkbox"
-                        defaultChecked={task.isDone}
+                        defaultChecked={t.isDone}
                         onChange={changeTaskStatus} />
-                    <span className={taskClassName}>{task.title}</span>
+                    <span>{t.title}</span>
                     <button onClick={removeTask}> X </button>
                 </li>
             )
         })
-        : <span>Your tasklist is empty</span>;
-
-    return (
-        <ul>
-            {tasksItems}
+        : <span className="error-message">You tasklist is empty!</span>
+        return (
+        <ul className="tasklist">
+           {taskItems}
         </ul>
     )
 }

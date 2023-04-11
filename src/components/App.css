@@ -8,22 +8,63 @@
   margin-right: 50px;
 }
 
+.Todolist button {
+  background-color: cornflowerblue;
+  border: 2px solid cornflowerblue;
+  cursor: pointer;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+}
+
+.Todolist button:hover {
+  cursor: pointer;
+  border: 2px solid hotpink;
+}
+
+.Todolist button:active {
+  background-color: rgb(85, 116, 172);
+}
+
+.Todolist button:disabled {
+  background-color: grey;
+  color: rgba(0, 0, 0, 0.295);
+  border: 2px solid grey;
+  cursor: auto;
+}
+
+.tasklist {
+  padding: 0;
+}
+
 .task {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.task span {
   font-weight: bold;
 }
 
-.task-done {
+.task-done span {
   opacity: 0.8;
   text-decoration: line-through;
 }
 
-.active-filter-btn {
+.Todolist .active-filter-btn {
   background-color: hotpink;
   border: 2px solid hotpink;
   color: white;
 }
 
-.filter-btn {
-  background-color: cornflowerblue;
-  border: 2px solid cornflowerblue;
+.Todolist .active-filter-btn:active {
+  background-color: hotpink;
+}
+
+.error-message {
+  color: crimson;
 }
