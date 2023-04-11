@@ -5,7 +5,6 @@ import Todolist from './Todolist';
 import { v1 } from 'uuid';
 
 const App = () => {
-
     //BLL:
         //localState
     const [tasks, setTasks] = useState( [
@@ -17,14 +16,19 @@ const App = () => {
         { id: v1(), title: 'GraphQL', isDone: false, },
     ]);
 
-    function removeTask(id: string) {
+    const removeTask = (id: string) => {
        const filtredTasks =  tasks.filter(task => task.id !== id);
        setTasks(filtredTasks);
     }
 
-    function addTask(title: string) {
+    const addTask = (title: string) => {
         const newTask: TasksType = { id: v1(), title: title, isDone: false,};
         setTasks([newTask, ...tasks]);
+    }
+
+    const changeTaskStatus = (id: string, status: boolean) => {
+       const changedTasks = tasks.map(t => t.id === id ? {...t, isDone: status} : t);
+       setTasks(changedTasks);
     }
 
     let [filter, setFilter] = useState<FilterType>('all');
@@ -39,9 +43,7 @@ const App = () => {
         filtredTasks = filtredTasks.filter(task => task.isDone === true);
     }
 
-    function changeFilter(filter: FilterType) {
-        setFilter(filter);
-    }
+    const changeFilter = (filter: FilterType) => setFilter(filter);
 
     //UI:
     return (
@@ -49,9 +51,11 @@ const App = () => {
             <Todolist
             title="What to lern"
             tasks={filtredTasks}
+            activFilter={filter}
             removeTask={removeTask}
             changeFilter={changeFilter}
-            addTask={addTask} />
+            addTask={addTask}
+            changeTaskStatus={changeTaskStatus} />
         </div>
     );
 }

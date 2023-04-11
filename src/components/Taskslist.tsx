@@ -7,14 +7,19 @@ const Taskslist: FC<TasksListType> = (props) => {
         props.tasks.length
         ? props.tasks.map((task) => {
 
-            function removeTask() {
-                props.removeTask(task.id);
-            }
+            const taskClassName = task.isDone ? 'task-done' : 'task';
+            const removeTask = () => props.removeTask(task.id);
+            const changeTaskStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
+                props.changeTaskStatus(task.id, e.currentTarget.checked);
+            };
 
             return (
                 <li key={task.id}>
-                    <input type="checkbox" defaultChecked={task.isDone} />
-                    <span>{task.title}</span>
+                    <input
+                        type="checkbox"
+                        defaultChecked={task.isDone}
+                        onChange={changeTaskStatus} />
+                    <span className={taskClassName}>{task.title}</span>
                     <button onClick={removeTask}> X </button>
                 </li>
             )

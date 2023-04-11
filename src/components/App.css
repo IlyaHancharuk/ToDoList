@@ -7,3 +7,23 @@
 .App > div {
   margin-right: 50px;
 }
+
+.task {
+  font-weight: bold;
+}
+
+.task-done {
+  opacity: 0.8;
+  text-decoration: line-through;
+}
+
+.active-filter-btn {
+  background-color: hotpink;
+  border: 2px solid hotpink;
+  color: white;
+}
+
+.filter-btn {
+  background-color: cornflowerblue;
+  border: 2px solid cornflowerblue;
+}
