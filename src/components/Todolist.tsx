@@ -3,13 +3,18 @@ import Taskslist from "./Taskslist";
 import { FilterType, TasksType } from "../types";
 
 type PropsToTodoType = {
+    todoId: string;
     title: string;
     tasks: TasksType[];
-    changeFilter: (filter: FilterType) => void;
-    removeTask: (id: string) => void;
-    changeTaskStatus: (id: string, isDone: boolean) => void;
-    addTask: (title: string) => void;
     filter: FilterType;
+
+    addTask: (todoListId: string, title: string) => void;
+    removeTask: (todoListId: string, id: string) => void;
+    changeTaskStatus: (todoListId: string, id: string, isDone: boolean) => void;
+
+    changeFilter: (todoListId: string, filter: FilterType) => void;
+    addTodoList: (title: string) => void;
+    removeTodoList: (todoListId: string) => void;
 }
 
 const TaskTitleMaxLength = 15;
@@ -18,12 +23,9 @@ const Todolist: React.FC<PropsToTodoType> = (props) => {
     const [taskTitle, setTaskTitle] = useState('');
     const [error, setError] = useState(false);
 
-    const setAllFilter = () => props.filter !== 'all' && props.changeFilter('all');
-    const setActiveFilter = () => props.filter !== 'active' && props.changeFilter('active');
-    const setComplitedFilter = () => props.filter !== 'completed' && props.changeFilter('completed');
-
+    const handlerToFilterCreator = (filter: FilterType) => () => props.changeFilter(props.todoId, filter);
     const addTask = () => {
-        props.addTask(taskTitle);
+        props.addTask(props.todoId, taskTitle);
         setTaskTitle('');
     };
     const changeTaskTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,25 +34,38 @@ const Todolist: React.FC<PropsToTodoType> = (props) => {
         setTaskTitle(text);
     };
 
+    const removeTodoList = () => props.removeTodoList(props.todoId);
+
+    const inputClasses = `input ${error && 'error-input'}`;
+    const setFilterAllBtnClasses = `${props.filter === 'all' ? 'active-filter-btn' : ''} btn`;
+    const setFilterActiveBtnClasses = `${props.filter === 'active' ? 'active-filter-btn' : ''} btn`;
+    const setFilterComplitedBtnClasses = `${props.filter === 'completed' ? 'active-filter-btn' : ''} btn`;
+
     return (
         <div className="Todolist">
-            <h3>{props.title}</h3>
+            <h3>
+                {props.title}
+                <button className="btn" onClick={removeTodoList}>X</button>
+            </h3>
             <div className="add-task-block">
                 <input
+                    className={inputClasses}
                     type="text"
+                    placeholder="Enter your task title"
                     value={taskTitle}
                     onChange={changeTaskTitle} />
-                <button onClick={addTask} disabled={taskTitle === '' || error}> + </button>
+                <button className="btn" onClick={addTask} disabled={taskTitle === '' || error}> + </button>
+                {taskTitle.length > TaskTitleMaxLength && <div className="error-message">Task title is to long!</div>}
             </div>
-            {taskTitle.length > TaskTitleMaxLength && <div className="error-message">Task title is to long!</div>}
             <Taskslist
+                todoId={props.todoId}
                 tasks={props.tasks}
                 removeTask={props.removeTask}
                 changeTaskStatus={props.changeTaskStatus} />
             <div className="filter-buttons">
-                <button className={props.filter === 'all' ? 'active-filter-btn' : ''} onClick={setAllFilter}>All</button>
-                <button className={props.filter === 'active' ? 'active-filter-btn' : ''} onClick={setActiveFilter}>Active</button>
-                <button className={props.filter === 'completed' ? 'active-filter-btn' : ''} onClick={setComplitedFilter}>Complited</button>
+                <button className={setFilterAllBtnClasses} onClick={handlerToFilterCreator('all')}>All</button>
+                <button className={setFilterActiveBtnClasses} onClick={handlerToFilterCreator('active')}>Active</button>
+                <button className={setFilterComplitedBtnClasses} onClick={handlerToFilterCreator('completed')}>Complited</button>
             </div>
         </div>
     )

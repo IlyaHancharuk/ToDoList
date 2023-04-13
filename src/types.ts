@@ -1,6 +1,4 @@
-
-
-
+export type FilterType = 'all' | 'active' | 'completed';
 
 export type TasksType = {
     id: string;
@@ -8,4 +6,15 @@ export type TasksType = {
     isDone: boolean;
 }
 
-export type FilterType = 'all' | 'active' | 'completed';
+export type TodoListType = {
+    id: string;
+    title: string;
+    filter: FilterType;
+}
+
+export type TasksStateType = {
+    [todoListId: string]: TasksType[];
+}
+
+export type TodoListsStateType = TodoListType[];
+

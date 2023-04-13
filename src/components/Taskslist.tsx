@@ -2,27 +2,31 @@ import React, { ChangeEvent, FC } from "react";
 import { TasksType } from "../types";
 
 type TaskListPropsType = {
+    todoId: string;
     tasks: TasksType[];
-    removeTask: (id: string) => void;
-    changeTaskStatus: (id: string, isDone: boolean) => void;
+    removeTask: (todoListId: string, id: string) => void;
+    changeTaskStatus: (todoListId: string, id: string, isDone: boolean) => void;
 }
 
 const Taskslist: FC<TaskListPropsType> = (props) => {
     const taskItems: JSX.Element[] | JSX.Element =
         props.tasks.length
             ? props.tasks.map(t => {
+            const removeTask = () => props.removeTask(props.todoId, t.id);
+            const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
+                props.changeTaskStatus(props.todoId, t.id, e.currentTarget.checked)
+            };
 
-            const removeTask = () => props.removeTask(t.id);
-            const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked);
+            const taskClasses = `task ${t.isDone ? 'task-done' : ''}`;
 
             return (
-                <li className="task" key={t.id}>
+                <li className={taskClasses} key={t.id}>
                     <input
                         type="checkbox"
                         defaultChecked={t.isDone}
                         onChange={changeTaskStatus} />
                     <span>{t.title}</span>
-                    <button onClick={removeTask}> X </button>
+                    <button className="btn" onClick={removeTask}> X </button>
                 </li>
             )
         })
