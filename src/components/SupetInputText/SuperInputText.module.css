@@ -1,0 +1,24 @@
+.superInput {
+    padding: 5px 10px;
+    border: 3px solid grey;
+    background: white;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    outline: none;
+    transition: 0.3s all;
+    -webkit-transition: 0.3s all;
+    -moz-transition: 0.3s all;
+    -ms-transition: 0.3s all;
+    -o-transition: 0.3s all;
+}
+
+.errorInput {
+    border: 3px solid red;
+}
+
+.error {
+    color: red;
+}
