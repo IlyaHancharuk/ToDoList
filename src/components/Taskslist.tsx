@@ -1,6 +1,8 @@
 import React, { ChangeEvent, FC } from "react";
 import { TasksType } from "../types";
 import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
+import { Checkbox, IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type TaskListPropsType = {
     todoId: string;
@@ -26,14 +28,15 @@ const Taskslist: FC<TaskListPropsType> = (props) => {
 
                 return (
                     <li className={taskClasses} key={t.id}>
-                        <input
-                            type="checkbox"
+                        <Checkbox
                             defaultChecked={t.isDone}
-                            onChange={changeTaskStatus} />
+                            onChange={changeTaskStatus}/>
                         <SuperEditableSpan
                             value={t.title}
                             onChangeText={changeTaskTitle} />
-                        <button className="btn" onClick={removeTask}> X </button>
+                        <IconButton onClick={removeTask}>
+                            <DeleteIcon />
+                        </IconButton>
                     </li>
                 )
             })

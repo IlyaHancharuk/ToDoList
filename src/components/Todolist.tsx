@@ -3,6 +3,9 @@ import Taskslist from "./Taskslist";
 import { FilterType, TasksType } from "../types";
 import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
 import AddItemForm from "./AddItemForn";
+import Button from "@mui/material/Button";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { IconButton } from "@mui/material";
 
 type PropsToTodoType = {
     todoId: string;
@@ -27,9 +30,9 @@ const Todolist: React.FC<PropsToTodoType> = (props) => {
     const changeTodoListTitle = (title: string) => props.changeTodoListTitle(props.todoId, title);
     const removeTodoList = () => props.removeTodoList(props.todoId);
 
-    const setFilterAllBtnClasses = `${props.filter === 'all' ? 'active-filter-btn' : ''} btn`;
-    const setFilterActiveBtnClasses = `${props.filter === 'active' ? 'active-filter-btn' : ''} btn`;
-    const setFilterComplitedBtnClasses = `${props.filter === 'completed' ? 'active-filter-btn' : ''} btn`;
+    // const setFilterAllBtnClasses = `${props.filter === 'all' ? 'active-filter-btn' : ''} btn`;
+    // const setFilterActiveBtnClasses = `${props.filter === 'active' ? 'active-filter-btn' : ''} btn`;
+    // const setFilterComplitedBtnClasses = `${props.filter === 'completed' ? 'active-filter-btn' : ''} btn`;
 
     return (
         <div className="Todolist">
@@ -39,7 +42,9 @@ const Todolist: React.FC<PropsToTodoType> = (props) => {
                     value={props.title}
                     onChangeText={changeTodoListTitle}
                 />
-                <button className="btn" onClick={removeTodoList}>X</button>
+                <IconButton onClick={removeTodoList}>
+                    <DeleteIcon />
+                </IconButton>
             </h3>
             <AddItemForm
                 maxLength={15}
@@ -53,9 +58,9 @@ const Todolist: React.FC<PropsToTodoType> = (props) => {
                 changeTaskTitle={props.changeTaskTitle}
             />
             <div className="filter-buttons">
-                <button className={setFilterAllBtnClasses} onClick={handlerToFilterCreator('all')}>All</button>
-                <button className={setFilterActiveBtnClasses} onClick={handlerToFilterCreator('active')}>Active</button>
-                <button className={setFilterComplitedBtnClasses} onClick={handlerToFilterCreator('completed')}>Complited</button>
+                <Button variant="contained" size="small" color={props.filter === 'all' ? 'secondary' : 'primary'} onClick={handlerToFilterCreator('all')}>All</Button>
+                <Button variant="contained" size="small" color={props.filter === 'active' ? 'secondary' : 'primary'} onClick={handlerToFilterCreator('active')}>Active</Button>
+                <Button variant="contained" size="small" color={props.filter === 'completed' ? 'secondary' : 'primary'} onClick={handlerToFilterCreator('completed')}>Complited</Button>
             </div>
         </div>
     )

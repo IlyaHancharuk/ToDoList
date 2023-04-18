@@ -4,10 +4,15 @@
   box-sizing: border-box;
 }
 
-.App {}
+.main {
+  padding: 30px;
+}
+
+.addTodoForm-container {
+  margin-bottom: 50px;
+}
 
 .todoLists-container {
-  padding: 30px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -17,9 +22,10 @@
 
 .Todolist {
   max-width: 280px;
+  height: max-content;
   padding: 20px;
-  background-color: antiquewhite;
-  border: 4px solid hotpink;
+  /* background-color: antiquewhite; */
+  /* border: 4px solid hotpink; */
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -28,7 +34,8 @@
 }
 
 .Todolist h3 {
-  margin: 0 0 20px 0;
+  margin: 0;
+  text-align: center;
 }
 
 .input {
@@ -85,7 +92,8 @@
 }
 
 .addItemForm {
-  height: 50px;
+  
+  display: flex;
 }
 
 .tasklist {
@@ -101,6 +109,7 @@
   display: flex;
   gap: 10px;
   justify-content: space-between;
+  align-items: center;
   font-weight: bold;
 }
 

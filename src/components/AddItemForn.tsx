@@ -1,5 +1,8 @@
 import React, { FC, useState } from "react";
 import SuperInputText from "./SupetInputText/SuperInputText";
+import AddTaskIcon from '@mui/icons-material/AddTask';
+import IconButton from "@mui/material/IconButton";
+import { TextField } from "@mui/material";
 
 type AddItemFormPropsType = {
     maxLength: number;
@@ -28,19 +31,24 @@ const AddItemForm: FC<AddItemFormPropsType> = ({
 
     const userErrorMessage = title.length > maxLength && <div className="error-message">Task title is to long!</div>;
     const isAddBtnDisable = title === '' || error;
-    const inputClasses = `input ${error && 'error-input'}`;
+    // const inputClasses = `input ${error && 'error-input'}`;
 
     return (
         <div className="addItemForm">
-                <SuperInputText 
-                   className={inputClasses}
-                   type="text"
-                   placeholder="Enter your task title"
-                   value={title}
-                   onChange={changeTaskTitle}
-                   onKeyDown={onEnterHandler} />
-                <button className="btn" onClick={addItem} disabled={isAddBtnDisable}> + </button>
-                {userErrorMessage}
+                <TextField
+                    label='Title'
+                    helperText = {userErrorMessage}
+                    placeholder="Enter your task title"
+                    size="small"
+                    margin="dense"
+                    value={title}
+                    error={error}
+                    onChange={changeTaskTitle}
+                    onKeyDown={onEnterHandler}
+                     />
+                <IconButton onClick={addItem} disabled={isAddBtnDisable} color="primary">
+                    <AddTaskIcon />
+                </IconButton>
             </div>
     );
 };

@@ -4,6 +4,8 @@ import './App.css';
 import Todolist from './Todolist';
 import { v1 } from 'uuid';
 import AddItemForm from './AddItemForn';
+import ResponsiveAppBar from './ResponsiveAppBar';
+import { Paper } from '@mui/material';
 
 const App = () => {
 
@@ -83,31 +85,44 @@ const App = () => {
     //UI:
     const todoListComponents: JSX.Element[] | JSX.Element = todoLists.map(todo => {
         const filtredTasks = getFiltredTasks(tasks[todo.id], todo.filter);
-        return <Todolist
-            todoId={todo.id}
-            key={todo.id}
-            title={todo.title}
-            tasks={filtredTasks}
-            filter={todo.filter}
 
-            addTask={addTask}
-            removeTask={removeTask}
-            changeTaskStatus={changeTaskStatus}
-            changeTaskTitle={changeTaskTitle}
 
-            addTodoList={addTodoList}
-            changeTodoListFilter={changeTodoListFilter}
-            changeTodoListTitle={changeTodoListTitle}
-            removeTodoList={removeTodoList}
-        />
+        return (
+            <Paper style={{height: 'fit-content'}} elevation={5}>
+                <Todolist
+                    todoId={todo.id}
+                    key={todo.id}
+                    title={todo.title}
+                    tasks={filtredTasks}
+                    filter={todo.filter}
+
+                    addTask={addTask}
+                    removeTask={removeTask}
+                    changeTaskStatus={changeTaskStatus}
+                    changeTaskTitle={changeTaskTitle}
+
+                    addTodoList={addTodoList}
+                    changeTodoListFilter={changeTodoListFilter}
+                    changeTodoListTitle={changeTodoListTitle}
+                    removeTodoList={removeTodoList}
+                />
+            </Paper>
+        )
+        
+        
     })
 
     return (
         <div className="App">
-            <AddItemForm maxLength={15} addINewItem={addTodoList} />
-            <div className='todoLists-container'>
-                {todoListComponents}
-            </div>
+            <ResponsiveAppBar />
+            <main className='main'>
+                <div className='addTodoForm-container'>
+                    <AddItemForm maxLength={15} addINewItem={addTodoList} />
+                </div>
+                <div className='todoLists-container'>
+                    {todoListComponents}
+                </div>
+            </main>
         </div>
     );
 }
