@@ -1,7 +1,7 @@
 import { v1 } from "uuid";
 import { TasksStateType } from "../types";
 
-export const TaskReducer = (state: TasksStateType, action: AllActionsType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType, action: AllActionsType): TasksStateType => {
     switch (action.type) {
         case 'ADD-TASK': {
             const newTask = {id: v1(), title: action.payload.title, isDone: false};

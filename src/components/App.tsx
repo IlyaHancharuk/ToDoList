@@ -6,8 +6,8 @@ import { v1 } from 'uuid';
 import AddItemForm from './AddItemForn';
 import ResponsiveAppBar from './ResponsiveAppBar';
 import { Paper } from '@mui/material';
-import { TaskReducer, addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from '../reducers/taskReducer';
-import { addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, removeTodoListAC, todoListReducer } from '../reducers/todoListReducer';
+import { tasksReducer, addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from '../reducers/tasksReducer';
+import { addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, removeTodoListAC, todoListsReducer } from '../reducers/todoListsReducer';
 
 const App = () => {
 
@@ -16,12 +16,12 @@ const App = () => {
     const todoListId_2 = v1();
 
         //localState
-    const [todoLists, todoListDispatch] = useReducer(todoListReducer, [
+    const [todoLists, todoListDispatch] = useReducer(todoListsReducer, [
         {id: todoListId_1, title: 'What to lern', filter: 'all'},
         {id: todoListId_2, title: 'What to buy', filter: 'all'},
     ])
 
-    const [tasks, tasksDispatch] = useReducer(TaskReducer, {
+    const [tasks, tasksDispatch] = useReducer(tasksReducer, {
         [todoListId_1]: [
             { id: v1(), title: 'HTML', isDone: true, },
             { id: v1(), title: 'CSS', isDone: true, },

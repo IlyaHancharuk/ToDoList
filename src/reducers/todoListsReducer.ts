@@ -1,6 +1,17 @@
 import { FilterType, TodoListType } from "../types";
 
-export const todoListReducer = (state: TodoListType[], action: AllActionsType): TodoListType[] => {
+export type AddTodoListACType = ReturnType<typeof addTodoListAC>;
+export type RemoveTodoListACType = ReturnType<typeof removeTodoListAC>;
+export type ChangeTodoListTitleACType = ReturnType<typeof changeTodoListTitleAC>;
+export type ChangeTodoListFilterACType = ReturnType<typeof changeTodoListFilterAC>;
+export type TodoListsActionsType =
+    AddTodoListACType |
+    RemoveTodoListACType |
+    ChangeTodoListTitleACType |
+    ChangeTodoListFilterACType
+;
+
+export const todoListsReducer = (state: TodoListType[], action: TodoListsActionsType): TodoListType[] => {
     switch (action.type) {
         case 'ADD-TODOLIST': {
             const newTodo: TodoListType = {
@@ -30,14 +41,6 @@ export const todoListReducer = (state: TodoListType[], action: AllActionsType): 
     }
 }
 
-type AllActionsType =
-    AddTodoListACType |
-    RemoveTodoListACType |
-    ChangeTodoListTitleACType |
-    ChangeTodoListFilterACType
-;
-
-type AddTodoListACType = ReturnType<typeof addTodoListAC>;
 export const addTodoListAC = (newTodoListId: string, title: string) => {
     return {
         type: 'ADD-TODOLIST',
@@ -47,8 +50,6 @@ export const addTodoListAC = (newTodoListId: string, title: string) => {
         }
     } as const;
 }
-
-type RemoveTodoListACType = ReturnType<typeof removeTodoListAC>;
 export const removeTodoListAC = (todoListId: string) => {
     return {
         type: 'REMOVE-TODOLIST',
@@ -57,8 +58,6 @@ export const removeTodoListAC = (todoListId: string) => {
         }
     } as const;
 }
-
-type ChangeTodoListTitleACType = ReturnType<typeof changeTodoListTitleAC>;
 export const changeTodoListTitleAC = (todoListId: string, newTitle: string) => {
     return {
         type: 'CHANGE-TODOLIST-TITLE',
@@ -68,8 +67,6 @@ export const changeTodoListTitleAC = (todoListId: string, newTitle: string) => {
         }
     } as const;
 }
-
-type ChangeTodoListFilterACType = ReturnType<typeof changeTodoListFilterAC>;
 export const changeTodoListFilterAC = (todoListId: string, filter: FilterType) => {
     return {
         type: 'CHANGE-TODOLIST-FILTER',
