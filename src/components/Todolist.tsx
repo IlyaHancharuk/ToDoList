@@ -30,10 +30,6 @@ const Todolist: React.FC<PropsToTodoType> = (props) => {
     const changeTodoListTitle = (title: string) => props.changeTodoListTitle(props.todoId, title);
     const removeTodoList = () => props.removeTodoList(props.todoId);
 
-    // const setFilterAllBtnClasses = `${props.filter === 'all' ? 'active-filter-btn' : ''} btn`;
-    // const setFilterActiveBtnClasses = `${props.filter === 'active' ? 'active-filter-btn' : ''} btn`;
-    // const setFilterComplitedBtnClasses = `${props.filter === 'completed' ? 'active-filter-btn' : ''} btn`;
-
     return (
         <div className="Todolist">
             
@@ -58,9 +54,24 @@ const Todolist: React.FC<PropsToTodoType> = (props) => {
                 changeTaskTitle={props.changeTaskTitle}
             />
             <div className="filter-buttons">
-                <Button variant="contained" size="small" color={props.filter === 'all' ? 'secondary' : 'primary'} onClick={handlerToFilterCreator('all')}>All</Button>
-                <Button variant="contained" size="small" color={props.filter === 'active' ? 'secondary' : 'primary'} onClick={handlerToFilterCreator('active')}>Active</Button>
-                <Button variant="contained" size="small" color={props.filter === 'completed' ? 'secondary' : 'primary'} onClick={handlerToFilterCreator('completed')}>Complited</Button>
+                <Button variant="contained"
+                        size="small"
+                        color={props.filter === 'all' ? 'secondary' : 'primary'}
+                        onClick={handlerToFilterCreator('all')}>
+                            All
+                        </Button>
+                <Button variant="contained"
+                        size="small"
+                        color={props.filter === 'active' ? 'secondary' : 'primary'}
+                        onClick={handlerToFilterCreator('active')}>
+                            Active
+                        </Button>
+                <Button variant="contained"
+                        size="small"
+                        color={props.filter === 'completed' ? 'secondary' : 'primary'}
+                        onClick={handlerToFilterCreator('completed')}>
+                            Complited
+                        </Button>
             </div>
         </div>
     )

@@ -85,7 +85,7 @@ const App = () => {
         const filtredTasks = getFiltredTasks(tasks[todo.id], todo.filter);
 
         return (
-            <Paper style={{height: 'fit-content'}} elevation={5}>
+            <Paper key={todo.id + '-paper'} style={{height: 'fit-content'}} elevation={5}>
                 <Todolist
                     todoId={todo.id}
                     key={todo.id}

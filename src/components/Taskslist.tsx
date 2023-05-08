@@ -29,7 +29,7 @@ const Taskslist: FC<TaskListPropsType> = (props) => {
                 return (
                     <li className={taskClasses} key={t.id}>
                         <Checkbox
-                            defaultChecked={t.isDone}
+                            checked={t.isDone}
                             onChange={changeTaskStatus}/>
                         <SuperEditableSpan
                             value={t.title}

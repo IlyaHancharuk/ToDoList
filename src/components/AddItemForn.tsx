@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react";
-import SuperInputText from "./SupetInputText/SuperInputText";
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import IconButton from "@mui/material/IconButton";
 import { TextField } from "@mui/material";
@@ -31,7 +30,6 @@ const AddItemForm: FC<AddItemFormPropsType> = ({
 
     const userErrorMessage = title.length > maxLength && <div className="error-message">Task title is to long!</div>;
     const isAddBtnDisable = title === '' || error;
-    // const inputClasses = `input ${error && 'error-input'}`;
 
     return (
         <div className="addItemForm">
