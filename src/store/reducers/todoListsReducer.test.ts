@@ -1,5 +1,5 @@
 import { v1 } from 'uuid';
-import { FilterType, TodoListType } from '../types';
+import { FilterType, TodoListType } from '../../types';
 import { AddTodoListACType, ChangeTodoListFilterACType, ChangeTodoListTitleACType, RemoveTodoListACType, addTodoListAC, removeTodoListAC, todoListsReducer } from './todoListsReducer';
 
 let todolistId1: string;

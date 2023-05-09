@@ -17,9 +17,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
   },
   "include": [
     "src"
-, "../react/my-app/src/Components/Accordion/Accordion.tsx"  ]
+  ]
 }
