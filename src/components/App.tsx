@@ -19,7 +19,7 @@ const App = () => {
     const [todoLists, todoListDispatch] = useReducer(todoListsReducer, [
         {id: todoListId_1, title: 'What to lern', filter: 'all'},
         {id: todoListId_2, title: 'What to buy', filter: 'all'},
-    ])
+    ]);
 
     const [tasks, tasksDispatch] = useReducer(tasksReducer, {
         [todoListId_1]: [
@@ -36,7 +36,7 @@ const App = () => {
             { id: v1(), title: 'Pepsi', isDone: false, },
             { id: v1(), title: 'Cheese', isDone: false, },
         ],
-    })
+    });
 
 
     //methods for filter
@@ -53,7 +53,7 @@ const App = () => {
     }
     const removeTask = (todoListId: string, id: string) => {
         tasksDispatch(removeTaskAC(todoListId, id));
-    };
+    }
     const changeTaskTitle = (todoListId: string, id: string, newTitle: string) => {
         tasksDispatch(changeTaskTitleAC(todoListId, id, newTitle));
     }
@@ -64,13 +64,15 @@ const App = () => {
 
     //methods for todolists
     const addTodoList = (title: string) => {
-        const newTodoId = v1();
-        todoListDispatch(addTodoListAC(newTodoId, title));
-        tasks[newTodoId] = [];
+        const action = addTodoListAC(title);
+        todoListDispatch(action);
+        todoListsReducer(todoLists, action); // refrashing state
+        tasksDispatch(action);
     }
     const removeTodoList = (todoListId: string) => {
-        todoListDispatch(removeTodoListAC(todoListId));
-        delete tasks[todoListId];
+        const action = removeTodoListAC(todoListId);
+        todoListDispatch(action);
+        tasksDispatch(action);
     }
     const changeTodoListTitle = (todoListId: string, newTitle: string) => {
         todoListDispatch(changeTodoListTitleAC(todoListId, newTitle));
@@ -105,7 +107,7 @@ const App = () => {
                 />
             </Paper>
         )
-    })
+    });
 
     return (
         <div className="App">

@@ -1,7 +1,21 @@
 import { v1 } from "uuid";
 import { TasksStateType } from "../types";
+import { AddTodoListACType, RemoveTodoListACType } from "./todoListsReducer";
 
-export const tasksReducer = (state: TasksStateType, action: AllActionsType): TasksStateType => {
+export type AddTaskACType = ReturnType<typeof addTaskAC>;
+export type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
+export type ChangeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>;
+export type ChangeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>;
+export type TasksActionsType =
+    AddTaskACType |
+    RemoveTaskACType |
+    ChangeTaskTitleACType |
+    ChangeTaskStatusACType |
+    AddTodoListACType |
+    RemoveTodoListACType
+;
+
+export const tasksReducer = (state: TasksStateType, action: TasksActionsType): TasksStateType => {
     switch (action.type) {
         case 'ADD-TASK': {
             const newTask = {id: v1(), title: action.payload.title, isDone: false};
@@ -20,19 +34,19 @@ export const tasksReducer = (state: TasksStateType, action: AllActionsType): Tas
             const updatedTasks = state[action.payload.todoListId].map(t => t.id === action.payload.id ? {...t, isDone: action.payload.newStatus} : t);
             return { ...state, [action.payload.todoListId]: updatedTasks };
         }
+        case "ADD-TODOLIST": {
+            return { ...state, [action.payload.newTodoListId]:[] };
+        }
+        case "REMOVE-TODOLIST": {
+            // eslint-disable-next-line no-empty-pattern
+            const { [action.payload.todoListId]:[], ...rest } = {...state};
+            return rest;
+        }
         default:
             return state;
     }
 }
 
-type AllActionsType =
-    AddTaskACType |
-    RemoveTaskACType |
-    ChangeTaskTitleACType |
-    ChangeTaskStatusACType
-;
-
-type AddTaskACType = ReturnType<typeof addTaskAC>;
 export const addTaskAC = (todoListId: string, title: string) => {
     return {
         type: 'ADD-TASK',
@@ -42,8 +56,6 @@ export const addTaskAC = (todoListId: string, title: string) => {
         }
     } as const;
 }
-
-type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
 export const removeTaskAC = (todoListId: string, id: string) => {
     return {
         type: 'REMOVE-TASK',
@@ -53,8 +65,6 @@ export const removeTaskAC = (todoListId: string, id: string) => {
         }
     } as const;
 }
-
-type ChangeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>;
 export const changeTaskTitleAC = (todoListId: string, id: string, newTitle: string) => {
     return {
         type: 'CHANGE-TASK-TITLE',
@@ -65,8 +75,6 @@ export const changeTaskTitleAC = (todoListId: string, id: string, newTitle: stri
         }
     } as const;
 }
-
-type ChangeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>;
 export const changeTaskStatusAC = (todoListId: string, id: string, newStatus: boolean) => {
     return {
         type: 'CHANGE-TASK-STATUS',

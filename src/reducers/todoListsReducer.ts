@@ -1,3 +1,4 @@
+import { v1 } from "uuid";
 import { FilterType, TodoListType } from "../types";
 
 export type AddTodoListACType = ReturnType<typeof addTodoListAC>;
@@ -41,11 +42,11 @@ export const todoListsReducer = (state: TodoListType[], action: TodoListsActions
     }
 }
 
-export const addTodoListAC = (newTodoListId: string, title: string) => {
+export const addTodoListAC = (title: string) => {
     return {
         type: 'ADD-TODOLIST',
         payload: {
-            newTodoListId,
+            newTodoListId: v1(),
             title,
         }
     } as const;
