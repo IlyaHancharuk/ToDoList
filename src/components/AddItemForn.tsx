@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, memo, useState } from "react";
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import IconButton from "@mui/material/IconButton";
 import { TextField } from "@mui/material";
@@ -8,10 +8,7 @@ type AddItemFormPropsType = {
     addINewItem: (title: string) => void;
 }
 
-const AddItemForm: FC<AddItemFormPropsType> = ({
-    maxLength,
-    addINewItem
-}) => {
+const AddItemForm: FC<AddItemFormPropsType> = memo(({ maxLength, addINewItem }) => {
     const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
 
@@ -26,7 +23,7 @@ const AddItemForm: FC<AddItemFormPropsType> = ({
     };
     const onEnterHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
         e.key === 'Enter' && addItem();
-    }
+    };
 
     const userErrorMessage = title.length > maxLength && <div className="error-message">Task title is to long!</div>;
     const isAddBtnDisable = title === '' || error;
@@ -49,6 +46,6 @@ const AddItemForm: FC<AddItemFormPropsType> = ({
                 </IconButton>
             </div>
     );
-};
+});
 
 export default AddItemForm;

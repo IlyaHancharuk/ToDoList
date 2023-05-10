@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useCallback } from "react";
 import Taskslist from "./Taskslist";
 import { FilterType, TasksType } from "../types";
 import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
@@ -24,15 +24,23 @@ type PropsToTodoType = {
     removeTodoList: (todoListId: string) => void;
 }
 
-const Todolist: React.FC<PropsToTodoType> = (props) => {
+const Todolist: React.FC<PropsToTodoType> = memo((props) => {
+    console.log('rerender Todolist')
     const handlerToFilterCreator = (filter: FilterType) => () => props.changeTodoListFilter(props.todoId, filter);
-    const addTask = (title: string) => props.addTask(props.todoId, title);
+    const addTask = useCallback((title: string) => props.addTask(props.todoId, title), [props.addTask, props.todoId]);
     const changeTodoListTitle = (title: string) => props.changeTodoListTitle(props.todoId, title);
     const removeTodoList = () => props.removeTodoList(props.todoId);
 
+    const getFiltredTasks = (tasks: TasksType[], filter: FilterType): TasksType[] => {
+        if (filter === 'active') return tasks.filter(t => t.isDone === false);
+        if (filter === 'completed') return tasks.filter(t => t.isDone === true);
+        return tasks;
+    };
+
+    const filtredTasks = getFiltredTasks(props.tasks, props.filter);
+
     return (
         <div className="Todolist">
-            
             <h3>
                 <SuperEditableSpan
                     value={props.title}
@@ -48,7 +56,7 @@ const Todolist: React.FC<PropsToTodoType> = (props) => {
             />
             <Taskslist
                 todoId={props.todoId}
-                tasks={props.tasks}
+                tasks={filtredTasks}
                 removeTask={props.removeTask}
                 changeTaskStatus={props.changeTaskStatus}
                 changeTaskTitle={props.changeTaskTitle}
@@ -75,6 +83,6 @@ const Todolist: React.FC<PropsToTodoType> = (props) => {
             </div>
         </div>
     )
-}
+});
 
 export default Todolist;
