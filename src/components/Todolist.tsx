@@ -24,61 +24,88 @@ type PropsToTodoType = {
     removeTodoList: (todoListId: string) => void;
 }
 
-const Todolist: React.FC<PropsToTodoType> = memo((props) => {
-    const onAllClickHandler = useCallback(() => props.changeTodoListFilter(props.todoId, "all"), [props.changeTodoListFilter]);
-    const onActiveClickHandler = useCallback(() => props.changeTodoListFilter(props.todoId, "active"), [props.changeTodoListFilter]);
-    const onCompletedClickHandler = useCallback(() => props.changeTodoListFilter(props.todoId, "completed"), [props.changeTodoListFilter]);
+const Todolist: React.FC<PropsToTodoType> = memo(({
+    todoId,
+    title,
+    tasks,
+    filter,
 
-    const addTask = useCallback((title: string) => props.addTask(props.todoId, title), [props.addTask, props.todoId]);
-    const changeTodoListTitle = (title: string) => props.changeTodoListTitle(props.todoId, title);
-    const removeTodoList = () => props.removeTodoList(props.todoId);
+    addTask,
+    removeTask,
+    changeTaskStatus,
+    changeTaskTitle,
 
-    const getFiltredTasks = (tasks: TasksType[], filter: FilterType): TasksType[] => {
+    changeTodoListFilter,
+    changeTodoListTitle,
+    removeTodoList
+}
+) => {
+    const onAllClickHandler = useCallback(() => {
+        changeTodoListFilter(todoId, "all");
+    }, [changeTodoListFilter, todoId]);
+
+    const onActiveClickHandler = useCallback(() => {
+        changeTodoListFilter(todoId, "active");
+    }, [changeTodoListFilter, todoId]);
+
+    const onCompletedClickHandler = useCallback(() => {
+        changeTodoListFilter(todoId, "completed");
+    }, [changeTodoListFilter, todoId]);
+
+    const addTaskHandler = useCallback((title: string) => {
+        addTask(todoId, title);
+    }, [addTask, todoId]);
+
+    const changeTodoListTitleHandler = useCallback((title: string) => {
+        changeTodoListTitle(todoId, title);
+    }, [changeTodoListTitle, todoId]);
+
+    const removeTodoListHandler = () => removeTodoList(todoId);
+
+    const filtredTasks = ((tasks: TasksType[], filter: FilterType): TasksType[] => {
         if (filter === 'active') return tasks.filter(t => t.isDone === false);
         if (filter === 'completed') return tasks.filter(t => t.isDone === true);
         return tasks;
-    };
-
-    const filtredTasks = getFiltredTasks(props.tasks, props.filter);
+    })(tasks, filter);
 
     return (
         <div className="Todolist">
             <h3>
                 <SuperEditableSpan
-                    value={props.title}
-                    onChangeText={changeTodoListTitle}
+                    value={title}
+                    onChangeText={changeTodoListTitleHandler}
                 />
-                <IconButton onClick={removeTodoList}>
+                <IconButton onClick={removeTodoListHandler}>
                     <DeleteIcon />
                 </IconButton>
             </h3>
             <AddItemForm
                 maxLength={15}
-                addINewItem={addTask}
+                addINewItem={addTaskHandler}
             />
             <Taskslist
-                todoId={props.todoId}
+                todoId={todoId}
                 tasks={filtredTasks}
-                removeTask={props.removeTask}
-                changeTaskStatus={props.changeTaskStatus}
-                changeTaskTitle={props.changeTaskTitle}
+                removeTask={removeTask}
+                changeTaskStatus={changeTaskStatus}
+                changeTaskTitle={changeTaskTitle}
             />
             <div className="filter-buttons">
                 <FilterButton
-                        todoId={props.todoId}
-                        color={props.filter === 'all' ? 'secondary' : 'primary'}
+                        todoId={todoId}
+                        color={filter === 'all' ? 'secondary' : 'primary'}
                         innerText="All"
                         changeTodoListFilter={onAllClickHandler}
                 />
                 <FilterButton
-                        todoId={props.todoId}
-                        color={props.filter === 'active' ? 'secondary' : 'primary'}
+                        todoId={todoId}
+                        color={filter === 'active' ? 'secondary' : 'primary'}
                         innerText="Active"
                         changeTodoListFilter={onActiveClickHandler}
                 />
                 <FilterButton
-                        todoId={props.todoId}
-                        color={props.filter === 'completed' ? 'secondary' : 'primary'}
+                        todoId={todoId}
+                        color={filter === 'completed' ? 'secondary' : 'primary'}
                         innerText="Complited"
                         changeTodoListFilter={onCompletedClickHandler}
                 />

@@ -1,8 +1,6 @@
-import React, { ChangeEvent, FC } from "react";
+import React, { FC } from "react";
 import { TasksType } from "../types";
-import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
-import { Checkbox, IconButton } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Task } from "./Task";
 
 type TaskListPropsType = {
     todoId: string;
@@ -12,41 +10,31 @@ type TaskListPropsType = {
     changeTaskTitle: (todoListId: string, id: string, newTitle: string) => void;
 }
 
-const Taskslist: FC<TaskListPropsType> = (props) => {
+const Taskslist: FC<TaskListPropsType> = ({
+    todoId,
+    tasks,
+    removeTask,
+    changeTaskStatus,
+    changeTaskTitle
+}) => {
     const taskItems: JSX.Element[] | JSX.Element =
-        props.tasks.length
-            ? props.tasks.map(t => {
-                const removeTask = () => props.removeTask(props.todoId, t.id);
-                const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                    props.changeTaskStatus(props.todoId, t.id, e.currentTarget.checked)
-                };
-                const changeTaskTitle = (title: string) => {
-                    props.changeTaskTitle(props.todoId, t.id, title);
-                }
-
-                const taskClasses = `task ${t.isDone ? 'task-done' : ''}`;
-
-                return (
-                    <li className={taskClasses} key={t.id}>
-                        <Checkbox
-                            checked={t.isDone}
-                            onChange={changeTaskStatus}/>
-                        <SuperEditableSpan
-                            value={t.title}
-                            onChangeText={changeTaskTitle} />
-                        <IconButton onClick={removeTask}>
-                            <DeleteIcon />
-                        </IconButton>
-                    </li>
-                )
-            })
-            : <span className="error-message">You tasklist is empty!</span>
+        tasks.length
+            ? tasks.map(t => (
+                <Task key={t.id}
+                      task={t}
+                      todoId={todoId}
+                      removeTask={removeTask}
+                      changeTaskStatus={changeTaskStatus}
+                      changeTaskTitle={changeTaskTitle}
+                />
+            ))
+            : <span className="error-message">You tasklist is empty!</span>;
 
     return (
         <ul className="tasklist">
             {taskItems}
         </ul>
-    )
+    );
 }
 
 export default Taskslist;

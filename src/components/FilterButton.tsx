@@ -10,7 +10,6 @@ type FilterButtonPropsType = {
 }
 
 export const FilterButton: React.FC<FilterButtonPropsType> = memo((props) => {
-    console.log("render")
     return (
         <Button variant="contained"
                 size="small"

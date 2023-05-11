@@ -1,4 +1,4 @@
-import React, { DetailedHTMLProps, FC, HTMLAttributes, InputHTMLAttributes, useState } from "react";
+import React, { DetailedHTMLProps, FC, HTMLAttributes, InputHTMLAttributes, memo, useState } from "react";
 import SuperInputText from "../SupetInputText/SuperInputText";
 import s from './SuperEditableSpan.module.css';
 
@@ -13,7 +13,7 @@ type SuperEditableSpanType = DefaultInputPropsType & {
     spanProps?: DefaultSpanPropsType;
 }
 
-const SuperEditableSpan: FC<SuperEditableSpanType> = (
+const SuperEditableSpan: FC<SuperEditableSpanType> = memo((
     {
         autoFocus,
         onBlur,
@@ -22,6 +22,7 @@ const SuperEditableSpan: FC<SuperEditableSpanType> = (
         ...restProps
     }
 ) => {
+    console.log("render")
     const [editMode, setEditMode] = useState<boolean>(false);
     const {children, onDoubleClick, className, ...restSpanProps} = spanProps || {};
 
@@ -62,7 +63,7 @@ const SuperEditableSpan: FC<SuperEditableSpanType> = (
                 )
             }
         </>
-    )
-}
+    );
+});
 
 export default SuperEditableSpan;
