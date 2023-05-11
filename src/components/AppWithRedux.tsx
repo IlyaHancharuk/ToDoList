@@ -5,7 +5,7 @@ import Todolist from './Todolist';
 import AddItemForm from './AddItemForn';
 import ResponsiveAppBar from './ResponsiveAppBar';
 import { Paper } from '@mui/material';
-import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from '../store/reducers/tasksReducer';
+import { addTaskAC } from '../store/reducers/tasksReducer';
 import { addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, removeTodoListAC } from '../store/reducers/todoListsReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from '../store/store';
@@ -20,15 +20,7 @@ const AppWithRedux = () => {
     const addTask = useCallback((todoListId: string, title: string) => {
         dispatch(addTaskAC(todoListId, title));
     }, [dispatch]);
-    const removeTask = useCallback((todoListId: string, id: string) => {
-        dispatch(removeTaskAC(todoListId, id));
-    }, [dispatch]);
-    const changeTaskTitle = useCallback((todoListId: string, id: string, newTitle: string) => {
-        dispatch(changeTaskTitleAC(todoListId, id, newTitle));
-    },[dispatch]);
-    const changeTaskStatus = useCallback((todoListId: string, id: string, status: boolean) => {
-        dispatch(changeTaskStatusAC(todoListId, id, status))
-    },[dispatch]);
+
 
     //methods for todolists
     const addTodoList = useCallback((title: string) => {
@@ -46,27 +38,23 @@ const AppWithRedux = () => {
 
     //UI:
     const todoListComponents: JSX.Element[] | JSX.Element = todoLists.map(todo => (
-            <Paper key={todo.id + '-paper'} style={{height: 'fit-content'}} elevation={5}>
-                <Todolist
-                    todoId={todo.id}
-                    key={todo.id}
-                    title={todo.title}
-                    tasks={tasks[todo.id]}
-                    filter={todo.filter}
+        <Paper key={todo.id + '-paper'} style={{ height: 'fit-content' }} elevation={5}>
+            <Todolist
+                todoId={todo.id}
+                key={todo.id}
+                title={todo.title}
+                tasks={tasks[todo.id]}
+                filter={todo.filter}
 
-                    addTask={addTask}
-                    removeTask={removeTask}
-                    changeTaskStatus={changeTaskStatus}
-                    changeTaskTitle={changeTaskTitle}
+                addTask={addTask}
 
-                    addTodoList={addTodoList}
-                    changeTodoListFilter={changeTodoListFilter}
-                    changeTodoListTitle={changeTodoListTitle}
-                    removeTodoList={removeTodoList}
-                />
-            </Paper>
-        )
-    );
+                addTodoList={addTodoList}
+                changeTodoListFilter={changeTodoListFilter}
+                changeTodoListTitle={changeTodoListTitle}
+                removeTodoList={removeTodoList}
+            />
+        </Paper>
+    ));
 
     return (
         <div className="App">

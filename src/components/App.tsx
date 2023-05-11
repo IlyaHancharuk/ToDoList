@@ -95,9 +95,9 @@ const App = () => {
                     filter={todo.filter}
 
                     addTask={addTask}
-                    removeTask={removeTask}
-                    changeTaskStatus={changeTaskStatus}
-                    changeTaskTitle={changeTaskTitle}
+                    // removeTask={removeTask}
+                    // changeTaskStatus={changeTaskStatus}
+                    // changeTaskTitle={changeTaskTitle}
 
                     addTodoList={addTodoList}
                     changeTodoListFilter={changeTodoListFilter}

@@ -14,9 +14,6 @@ type PropsToTodoType = {
     filter: FilterType;
 
     addTask: (todoListId: string, title: string) => void;
-    removeTask: (todoListId: string, id: string) => void;
-    changeTaskStatus: (todoListId: string, id: string, isDone: boolean) => void;
-    changeTaskTitle: (todoListId: string, id: string, newTitle: string) => void;
 
     addTodoList: (title: string) => void;
     changeTodoListFilter: (todoListId: string, filter: FilterType) => void;
@@ -31,9 +28,6 @@ const Todolist: React.FC<PropsToTodoType> = memo(({
     filter,
 
     addTask,
-    removeTask,
-    changeTaskStatus,
-    changeTaskTitle,
 
     changeTodoListFilter,
     changeTodoListTitle,
@@ -86,9 +80,6 @@ const Todolist: React.FC<PropsToTodoType> = memo(({
             <Taskslist
                 todoId={todoId}
                 tasks={filtredTasks}
-                removeTask={removeTask}
-                changeTaskStatus={changeTaskStatus}
-                changeTaskTitle={changeTaskTitle}
             />
             <div className="filter-buttons">
                 <FilterButton
