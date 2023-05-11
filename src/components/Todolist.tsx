@@ -66,21 +66,18 @@ const Todolist: React.FC<PropsToTodoType> = memo((props) => {
             <div className="filter-buttons">
                 <FilterButton
                         todoId={props.todoId}
-                        filter={props.filter}
                         color={props.filter === 'all' ? 'secondary' : 'primary'}
                         innerText="All"
                         changeTodoListFilter={onAllClickHandler}
                 />
                 <FilterButton
                         todoId={props.todoId}
-                        filter={props.filter}
                         color={props.filter === 'active' ? 'secondary' : 'primary'}
                         innerText="Active"
                         changeTodoListFilter={onActiveClickHandler}
                 />
                 <FilterButton
                         todoId={props.todoId}
-                        filter={props.filter}
                         color={props.filter === 'completed' ? 'secondary' : 'primary'}
                         innerText="Complited"
                         changeTodoListFilter={onCompletedClickHandler}

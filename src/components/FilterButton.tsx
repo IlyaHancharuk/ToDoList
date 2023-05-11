@@ -1,10 +1,8 @@
 import React, { memo } from 'react';
-import { FilterType } from '../types';
 import Button from "@mui/material/Button";
 
 type FilterButtonPropsType = {
     todoId: string;
-    filter: FilterType;
     color: "secondary" | "primary" | "inherit" | "success" | "error" | "info" | "warning";
     innerText: string;
 
