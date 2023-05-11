@@ -9,6 +9,7 @@ import { addTaskAC } from '../store/reducers/tasksReducer';
 import { addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, removeTodoListAC } from '../store/reducers/todoListsReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from '../store/store';
+import { CreateTask, CreateTodolist, DeleteTask, DeleteTodolist, GetTasks, GetTodolists, UpdateTaskTitle, UpdateTodolistTitle } from '../api/testComponent';
 
 const AppWithRedux = () => {
     //localState
@@ -66,6 +67,18 @@ const AppWithRedux = () => {
                 <div className='todoLists-container'>
                     {todoListComponents}
                 </div>
+                <div>Todolists</div>
+                {/* <GetTodolists /> */}
+                <div>Todo Actions</div>
+                {/* <CreateTodolist /> */}
+                {/* <DeleteTodolist /> */}
+                {/* <UpdateTodolistTitle /> */}
+                <div>Tasks</div>
+                {/* <GetTasks /> */}
+                <div>Task Actions</div>
+                {/* <CreateTask /> */}
+                {/* <DeleteTask /> */}
+                {/* <UpdateTaskTitle /> */}
             </main>
         </div>
     );
