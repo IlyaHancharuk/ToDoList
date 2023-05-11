@@ -3,9 +3,9 @@ import Taskslist from "./Taskslist";
 import { FilterType, TasksType } from "../types";
 import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
 import AddItemForm from "./AddItemForn";
-import Button from "@mui/material/Button";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from "@mui/material";
+import { FilterButton } from "./FilterButton";
 
 type PropsToTodoType = {
     todoId: string;
@@ -25,8 +25,10 @@ type PropsToTodoType = {
 }
 
 const Todolist: React.FC<PropsToTodoType> = memo((props) => {
-    console.log('rerender Todolist')
-    const handlerToFilterCreator = (filter: FilterType) => () => props.changeTodoListFilter(props.todoId, filter);
+    const onAllClickHandler = useCallback(() => props.changeTodoListFilter(props.todoId, "all"), [props.changeTodoListFilter]);
+    const onActiveClickHandler = useCallback(() => props.changeTodoListFilter(props.todoId, "active"), [props.changeTodoListFilter]);
+    const onCompletedClickHandler = useCallback(() => props.changeTodoListFilter(props.todoId, "completed"), [props.changeTodoListFilter]);
+
     const addTask = useCallback((title: string) => props.addTask(props.todoId, title), [props.addTask, props.todoId]);
     const changeTodoListTitle = (title: string) => props.changeTodoListTitle(props.todoId, title);
     const removeTodoList = () => props.removeTodoList(props.todoId);
@@ -62,24 +64,27 @@ const Todolist: React.FC<PropsToTodoType> = memo((props) => {
                 changeTaskTitle={props.changeTaskTitle}
             />
             <div className="filter-buttons">
-                <Button variant="contained"
-                        size="small"
+                <FilterButton
+                        todoId={props.todoId}
+                        filter={props.filter}
                         color={props.filter === 'all' ? 'secondary' : 'primary'}
-                        onClick={handlerToFilterCreator('all')}>
-                            All
-                        </Button>
-                <Button variant="contained"
-                        size="small"
+                        innerText="All"
+                        changeTodoListFilter={onAllClickHandler}
+                />
+                <FilterButton
+                        todoId={props.todoId}
+                        filter={props.filter}
                         color={props.filter === 'active' ? 'secondary' : 'primary'}
-                        onClick={handlerToFilterCreator('active')}>
-                            Active
-                        </Button>
-                <Button variant="contained"
-                        size="small"
+                        innerText="Active"
+                        changeTodoListFilter={onActiveClickHandler}
+                />
+                <FilterButton
+                        todoId={props.todoId}
+                        filter={props.filter}
                         color={props.filter === 'completed' ? 'secondary' : 'primary'}
-                        onClick={handlerToFilterCreator('completed')}>
-                            Complited
-                        </Button>
+                        innerText="Complited"
+                        changeTodoListFilter={onCompletedClickHandler}
+                />
             </div>
         </div>
     )

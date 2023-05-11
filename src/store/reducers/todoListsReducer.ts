@@ -25,16 +25,19 @@ export const todoListsReducer = (state: TodoListType[] = initialState, action: T
             return [...state, newTodo];
         }
         case "REMOVE-TODOLIST": {
-            return state.filter(todo => todo.id !== action.payload.todoListId);
+            const copyState = [...state];
+            return copyState.filter(todo => todo.id !== action.payload.todoListId);
         }
         case "CHANGE-TODOLIST-TITLE": {
-            return state.map(todo =>
+            const copyState = [...state];
+            return copyState.map(todo =>
                 todo.id === action.payload.todoListId
                 ? {...todo, title: action.payload.newTitle}
                 : todo);
         }
         case "CHANGE-TODOLIST-FILTER": {
-            return state.map(todo =>
+            const copyState = [...state];
+            return copyState.map(todo =>
                 todo.id === action.payload.todoListId
                 ? {...todo, filter: action.payload.filter}
                 : todo);
