@@ -5,7 +5,7 @@ import Todolist from './Todolist';
 import AddItemForm from './AddItemForn';
 import ResponsiveAppBar from './ResponsiveAppBar';
 import { Paper } from '@mui/material';
-import { addTaskAC } from '../store/reducers/tasksReducer';
+import { addTaskTC } from '../store/reducers/tasksReducer';
 import { addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, getTodolistsTC, removeTodoListAC } from '../store/reducers/todoListsReducer';
 import { useAppDispatch, useAppSelector } from '../store/store';
 
@@ -23,7 +23,7 @@ const AppWithRedux = () => {
 
     //methods for tasks
     const addTask = useCallback((todoListId: string, title: string) => {
-        dispatch(addTaskAC(todoListId, title));
+        dispatch(addTaskTC(todoListId, title));
     }, [dispatch]);
 
 

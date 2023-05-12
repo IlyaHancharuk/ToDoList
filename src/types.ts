@@ -7,28 +7,28 @@ export type TasksStateType = {
 export type TodoListsStateType = TodolistType[];
 
 export type TaskType = {
-    description: string
-    title: string
-    completed: boolean
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
-    id: string
-    todoListId: string
-    order: number
-    addedDate: string
+    description: string;
+    title: string;
+    completed: boolean;
+    status: TaskStatuses;
+    priority: TaskPriorities;
+    startDate: string;
+    deadline: string;
+    id: string;
+    todoListId: string;
+    order: number;
+    addedDate: string;
 }
 
 export type TodolistType = {
-    id: string
-    addedDate: string
-    order: number
-    title: string
+    id: string;
+    addedDate: string;
+    order: number;
+    title: string;
 }
 
 export type TodolistDomainType = TodolistType & {
-    filter: FilterType
+    filter: FilterType;
 }
 
 export enum TaskStatuses {
@@ -47,10 +47,10 @@ export enum TaskPriorities {
 }
 
 export type UpdateTaskModelType = {
-    title: string
-    description: string
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
+    title: string;
+    description: string;
+    status: TaskStatuses;
+    priority: TaskPriorities;
+    startDate: string;
+    deadline: string;
 }
