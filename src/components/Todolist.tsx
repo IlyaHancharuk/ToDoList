@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from "react";
 import Taskslist from "./Taskslist";
-import { FilterType, TasksType } from "../types";
+import { FilterType, TaskType } from "../types";
 import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
 import AddItemForm from "./AddItemForn";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -10,7 +10,7 @@ import { FilterButton } from "./FilterButton";
 type PropsToTodoType = {
     todoId: string;
     title: string;
-    tasks: TasksType[];
+    tasks: TaskType[];
     filter: FilterType;
 
     addTask: (todoListId: string, title: string) => void;
@@ -56,9 +56,9 @@ const Todolist: React.FC<PropsToTodoType> = memo(({
 
     const removeTodoListHandler = () => removeTodoList(todoId);
 
-    const filtredTasks = ((tasks: TasksType[], filter: FilterType): TasksType[] => {
-        if (filter === 'active') return tasks.filter(t => t.isDone === false);
-        if (filter === 'completed') return tasks.filter(t => t.isDone === true);
+    const filtredTasks = ((tasks: TaskType[], filter: FilterType): TaskType[] => {
+        if (filter === 'active') return tasks.filter(t => t.completed === false);
+        if (filter === 'completed') return tasks.filter(t => t.completed === true);
         return tasks;
     })(tasks, filter);
 

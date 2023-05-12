@@ -2,13 +2,13 @@ import React, { ChangeEvent, FC, memo, useCallback } from 'react';
 import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
 import { Checkbox, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { TasksType } from '../types';
+import { TaskType } from '../types';
 import { useDispatch } from 'react-redux';
 import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from '../store/reducers/tasksReducer';
 
 type TaskPropsType = {
     todoId: string;
-    task: TasksType;
+    task: TaskType;
 }
 
 export const TaskWithRedux: FC<TaskPropsType> = memo(({
@@ -29,12 +29,12 @@ export const TaskWithRedux: FC<TaskPropsType> = memo(({
         dispatch(changeTaskTitleAC(todoId, task.id, title));
     }, [dispatch, todoId, task.id]);
 
-    const taskClasses = `task ${task.isDone ? 'task-done' : ''}`;
+    const taskClasses = `task ${task.completed ? 'task-done' : ''}`;
 
     return (
         <li className={taskClasses}>
             <Checkbox
-                checked={task.isDone}
+                checked={task.completed}
                 onChange={changeTaskStatus} />
             <SuperEditableSpan
                 value={task.title}

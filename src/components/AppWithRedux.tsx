@@ -1,21 +1,25 @@
-import React, { useCallback } from 'react';
-import { FilterType, TasksStateType, TodoListType } from '../types';
+import React, { useCallback, useEffect } from 'react';
+import { FilterType, TasksStateType, TodolistDomainType } from '../types';
 import './App.css';
 import Todolist from './Todolist';
 import AddItemForm from './AddItemForn';
 import ResponsiveAppBar from './ResponsiveAppBar';
 import { Paper } from '@mui/material';
 import { addTaskAC } from '../store/reducers/tasksReducer';
-import { addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, removeTodoListAC } from '../store/reducers/todoListsReducer';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppRootStateType } from '../store/store';
-import { CreateTask, CreateTodolist, DeleteTask, DeleteTodolist, GetTasks, GetTodolists, UpdateTaskTitle, UpdateTodolistTitle } from '../api/testComponent';
+import { addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, getTodolistsTC, removeTodoListAC } from '../store/reducers/todoListsReducer';
+import { useAppDispatch, useAppSelector } from '../store/store';
 
 const AppWithRedux = () => {
+
+    useEffect(() => {
+        dispatch(getTodolistsTC())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     //localState
-    const todoLists = useSelector<AppRootStateType, TodoListType[]>(state => state.todolists);
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
-    const dispatch = useDispatch();
+    const todoLists = useAppSelector<TodolistDomainType[]>(state => state.todolists);
+    const tasks = useAppSelector<TasksStateType>(state => state.tasks);
+    const dispatch = useAppDispatch();
 
     //methods for tasks
     const addTask = useCallback((todoListId: string, title: string) => {
@@ -67,18 +71,6 @@ const AppWithRedux = () => {
                 <div className='todoLists-container'>
                     {todoListComponents}
                 </div>
-                <div>Todolists</div>
-                {/* <GetTodolists /> */}
-                <div>Todo Actions</div>
-                {/* <CreateTodolist /> */}
-                {/* <DeleteTodolist /> */}
-                {/* <UpdateTodolistTitle /> */}
-                <div>Tasks</div>
-                {/* <GetTasks /> */}
-                <div>Task Actions</div>
-                {/* <CreateTask /> */}
-                {/* <DeleteTask /> */}
-                {/* <UpdateTaskTitle /> */}
             </main>
         </div>
     );

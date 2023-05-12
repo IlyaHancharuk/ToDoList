@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import { TasksType } from "../types";
 import { TaskWithRedux } from "./TaskWithRedux";
+import { TaskType } from "../types";
 
 type TaskListPropsType = {
     todoId: string;
-    tasks: TasksType[];
+    tasks: TaskType[];
 }
 
 const Taskslist: FC<TaskListPropsType> = ({

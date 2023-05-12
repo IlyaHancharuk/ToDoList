@@ -1,40 +1,48 @@
 import { v1 } from "uuid";
-import { TasksStateType } from "../../types";
-import { AddTodoListACType, RemoveTodoListACType } from "./todoListsReducer";
+import { TaskPriorities, TaskStatuses, TaskType, TasksStateType } from "../../types";
+import { AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType } from "./todoListsReducer";
 
-export type AddTaskACType = ReturnType<typeof addTaskAC>;
-export type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
-export type ChangeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>;
-export type ChangeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>;
-export type TasksActionsType =
-    AddTaskACType |
-    RemoveTaskACType |
-    ChangeTaskTitleACType |
-    ChangeTaskStatusACType |
-    AddTodoListACType |
-    RemoveTodoListACType
+export type AddTaskActionType = ReturnType<typeof addTaskAC>;
+export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
+export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>;
+export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>;
+export type TasksActionsType = AddTaskActionType
+    | RemoveTaskActionType
+    | ChangeTaskTitleActionType
+    | ChangeTaskStatusActionType
+    | AddTodoListActionType
+    | RemoveTodoListActionType
+    | SetTodoListsActionType
 ;
 
-const initialState: TasksStateType = {};
+const initialState: TasksStateType = {
+    // "todolistId1": [
+    //     { id: "1", title: "CSS",completed: false, status: TaskStatuses.New, todoListId: "todolistId1", description: '',
+    //         startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+    //     { id: "2", title: "JS",completed: false, status: TaskStatuses.Completed, todoListId: "todolistId1", description: '',
+    //         startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+    //     { id: "3", title: "React",completed: false, status: TaskStatuses.New, todoListId: "todolistId1", description: '',
+    //         startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low }
+    // ],
+    // "todolistId2": [
+    //     { id: "1", title: "bread",completed: false, status: TaskStatuses.New, todoListId: "todolistId2", description: '',
+    //         startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+    //     { id: "2", title: "milk",completed: false, status: TaskStatuses.Completed, todoListId: "todolistId2", description: '',
+    //         startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+    //     { id: "3", title: "tea",completed: false, status: TaskStatuses.New, todoListId: "todolistId2", description: '',
+    //         startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low }
+    // ]
+
+}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: TasksActionsType): TasksStateType => {
     switch (action.type) {
-        case 'ADD-TASK': {
-            const newTask = {id: v1(), title: action.payload.title, isDone: false};
-            const updatedTasks = [newTask, ...state[action.payload.todoListId]];
-            return { ...state, [action.payload.todoListId]: updatedTasks };
-        }
-        case "REMOVE-TASK": {
-            const updatedTasks = state[action.payload.todoListId].filter(t => t.id !== action.payload.id);
-            return { ...state, [action.payload.todoListId]: updatedTasks }
-        }
-        case "CHANGE-TASK-TITLE": {
-            const updatedTasks = state[action.payload.todoListId].map(t => t.id === action.payload.id ? {...t, title: action.payload.newTitle} : t);
-            return { ...state, [action.payload.todoListId]: updatedTasks };
-        }
-        case "CHANGE-TASK-STATUS": {
-            const updatedTasks = state[action.payload.todoListId].map(t => t.id === action.payload.id ? {...t, isDone: action.payload.newStatus} : t);
-            return { ...state, [action.payload.todoListId]: updatedTasks };
+        case "SET-TODOLIST": {
+            const copyState = { ...state };
+            action.payload.todolists.forEach(todo => {
+                copyState[todo.id] = []
+            })
+            return copyState;
         }
         case "ADD-TODOLIST": {
             return { ...state, [action.payload.newTodoListId]:[] };
@@ -43,6 +51,38 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
             // eslint-disable-next-line no-empty-pattern
             const { [action.payload.todoListId]:[], ...rest } = {...state};
             return rest;
+        }
+        case 'ADD-TASK': {
+            const newTask: TaskType = {
+                id: v1(),
+                title: action.payload.title,
+                status: TaskStatuses.New,
+                todoListId: action.payload.todoListId,
+                description: '', startDate: '', deadline: '',
+                addedDate: '', order: 0, priority: TaskPriorities.Low,
+                completed: false
+            };
+            const updatedTasks = [newTask, ...state[action.payload.todoListId]];
+            return { ...state, [action.payload.todoListId]: updatedTasks };
+        }
+        case "REMOVE-TASK": {
+            const updatedTasks = state[action.payload.todoListId]
+                .filter(t => t.id !== action.payload.id);
+            return { ...state, [action.payload.todoListId]: updatedTasks }
+        }
+        case "CHANGE-TASK-TITLE": {
+            const updatedTasks = state[action.payload.todoListId]
+                .map(t => t.id === action.payload.id
+                    ? {...t, title: action.payload.newTitle}
+                    : t);
+            return { ...state, [action.payload.todoListId]: updatedTasks };
+        }
+        case "CHANGE-TASK-STATUS": {
+            const updatedTasks = state[action.payload.todoListId]
+                .map(t => t.id === action.payload.id
+                    ? {...t, completed: action.payload.newStatus}
+                    : t);
+            return { ...state, [action.payload.todoListId]: updatedTasks };
         }
         default:
             return state;

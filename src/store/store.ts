@@ -1,18 +1,26 @@
 
-import { combineReducers, legacy_createStore as createStore } from 'redux';
-import { todoListsReducer } from './reducers/todoListsReducer';
-import { tasksReducer } from './reducers/tasksReducer';
+import { applyMiddleware, combineReducers, legacy_createStore as createStore } from 'redux';
+import { TodoListsActionsType, todoListsReducer } from './reducers/todoListsReducer';
+import { TasksActionsType, tasksReducer } from './reducers/tasksReducer';
+import thunk from 'redux-thunk';
+import { ThunkDispatch } from "../../node_modules/redux-thunk/es/types";
+import { TypedUseSelectorHook, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const rootReducer = combineReducers({
    tasks: tasksReducer,
    todolists: todoListsReducer
 })
 
+export const store = createStore(rootReducer, applyMiddleware(thunk));
 
-
-export const store = createStore(rootReducer);
 export type AppRootStateType = ReturnType<typeof rootReducer>;
 export type ReduxStoreType = typeof store;
+export type AllActionsType = TasksActionsType | TodoListsActionsType;
+export type AppThunkDispatch = ThunkDispatch<AppRootStateType, unknown, AllActionsType>;
+// кастомный хук для того, чтобы не типизировать хук useDispatch при каждом использовании
+export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
+export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
 // @ts-ignore
 window.store = store;
