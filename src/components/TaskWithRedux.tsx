@@ -3,7 +3,7 @@ import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
 import { Checkbox, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TaskStatuses, TaskType } from '../types';
-import { removeTaskTC, updateTaskStatusTC, updateTaskTitleTC } from '../store/reducers/tasksReducer';
+import { removeTaskTC, updateTaskTC } from '../store/reducers/tasksReducer';
 import { useAppDispatch } from '../store/store';
 
 type TaskPropsType = {
@@ -23,11 +23,11 @@ export const TaskWithRedux: FC<TaskPropsType> = memo(({
 
     const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const status: TaskStatuses = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.InProgress;
-        dispatch(updateTaskStatusTC(todoId, task.id, status));
+        dispatch(updateTaskTC(todoId, task.id, { status }));
     }, [dispatch, todoId, task.id]);
 
     const changeTaskTitle = useCallback((title: string) => {
-        dispatch(updateTaskTitleTC(todoId, task.id, title));
+        dispatch(updateTaskTC(todoId, task.id, { title }));
     }, [dispatch, todoId, task.id]);
 
     const CheckboxStatus = task.status === TaskStatuses.Completed ? true : false;
