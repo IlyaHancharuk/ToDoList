@@ -6,7 +6,7 @@ import AddItemForm from './AddItemForn';
 import ResponsiveAppBar from './ResponsiveAppBar';
 import { Paper } from '@mui/material';
 import { addTaskTC } from '../store/reducers/tasksReducer';
-import { addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, getTodolistsTC, removeTodoListAC } from '../store/reducers/todoListsReducer';
+import { addTodolistsTC, changeTodoListFilterAC, getTodolistsTC, removeTodolistsTC, updateTodolistsTitleTC } from '../store/reducers/todoListsReducer';
 import { useAppDispatch, useAppSelector } from '../store/store';
 
 const AppWithRedux = () => {
@@ -29,13 +29,13 @@ const AppWithRedux = () => {
 
     //methods for todolists
     const addTodoList = useCallback((title: string) => {
-        dispatch(addTodoListAC(title));
+        dispatch(addTodolistsTC(title));
     }, [dispatch]);
     const removeTodoList = useCallback((todoListId: string) => {
-        dispatch(removeTodoListAC(todoListId));
+        dispatch(removeTodolistsTC(todoListId));
     },[dispatch]);
     const changeTodoListTitle = useCallback((todoListId: string, newTitle: string) => {
-        dispatch(changeTodoListTitleAC(todoListId, newTitle));
+        dispatch(updateTodolistsTitleTC(todoListId, newTitle));
     },[dispatch]);
     const changeTodoListFilter = useCallback((todoListId: string, filter: FilterType) => {
         dispatch(changeTodoListFilterAC(todoListId, filter));

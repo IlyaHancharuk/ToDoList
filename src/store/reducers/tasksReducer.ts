@@ -49,7 +49,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
             return copyState;
         }
         case "ADD-TODOLIST": {
-            return { ...state, [action.payload.newTodoListId]:[] };
+            return { ...state, [action.payload.todolist.id]:[] };
         }
         case "REMOVE-TODOLIST": {
             // eslint-disable-next-line no-empty-pattern
