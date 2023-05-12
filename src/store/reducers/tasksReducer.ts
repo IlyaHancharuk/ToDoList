@@ -69,9 +69,11 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
             };
         }
         case "REMOVE-TASK": {
-            const updatedTasks = state[action.payload.todoListId]
-                .filter(t => t.id !== action.payload.id);
-            return { ...state, [action.payload.todoListId]: updatedTasks }
+            return {
+                ...state,
+                [action.payload.todoListId]: state[action.payload.todoListId]
+                    .filter(t => t.id !== action.payload.id)
+            }
         }
         case "CHANGE-TASK-TITLE": {
             return {
