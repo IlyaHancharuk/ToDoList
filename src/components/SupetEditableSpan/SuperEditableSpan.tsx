@@ -22,7 +22,6 @@ const SuperEditableSpan: FC<SuperEditableSpanType> = memo((
         ...restProps
     }
 ) => {
-    console.log("render")
     const [editMode, setEditMode] = useState<boolean>(false);
     const {children, onDoubleClick, className, ...restSpanProps} = spanProps || {};
 

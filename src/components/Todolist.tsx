@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useEffect } from "react";
 import Taskslist from "./Taskslist";
 import { FilterType, TaskType } from "../types";
 import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
@@ -6,6 +6,8 @@ import AddItemForm from "./AddItemForn";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from "@mui/material";
 import { FilterButton } from "./FilterButton";
+import { useAppDispatch } from "../store/store";
+import { getTasksTC } from "../store/reducers/tasksReducer";
 
 type PropsToTodoType = {
     todoId: string;
@@ -34,6 +36,13 @@ const Todolist: React.FC<PropsToTodoType> = memo(({
     removeTodoList
 }
 ) => {
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getTasksTC(todoId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const onAllClickHandler = useCallback(() => {
         changeTodoListFilter(todoId, "all");
     }, [changeTodoListFilter, todoId]);

@@ -10,6 +10,7 @@ import { addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, getTodoli
 import { useAppDispatch, useAppSelector } from '../store/store';
 
 const AppWithRedux = () => {
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(getTodolistsTC())
@@ -19,7 +20,6 @@ const AppWithRedux = () => {
     //localState
     const todoLists = useAppSelector<TodolistDomainType[]>(state => state.todolists);
     const tasks = useAppSelector<TasksStateType>(state => state.tasks);
-    const dispatch = useAppDispatch();
 
     //methods for tasks
     const addTask = useCallback((todoListId: string, title: string) => {

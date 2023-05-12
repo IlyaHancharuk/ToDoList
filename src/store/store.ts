@@ -1,5 +1,5 @@
 
-import { applyMiddleware, combineReducers, legacy_createStore as createStore } from 'redux';
+import { AnyAction, applyMiddleware, combineReducers, legacy_createStore as createStore } from 'redux';
 import { TodoListsActionsType, todoListsReducer } from './reducers/todoListsReducer';
 import { TasksActionsType, tasksReducer } from './reducers/tasksReducer';
 import thunk from 'redux-thunk';
@@ -17,10 +17,10 @@ export const store = createStore(rootReducer, applyMiddleware(thunk));
 export type AppRootStateType = ReturnType<typeof rootReducer>;
 export type ReduxStoreType = typeof store;
 export type AllActionsType = TasksActionsType | TodoListsActionsType;
-export type AppThunkDispatch = ThunkDispatch<AppRootStateType, unknown, AllActionsType>;
+export type AppThunkDispatch = ThunkDispatch<AppRootStateType, unknown, AnyAction>;
 // кастомный хук для того, чтобы не типизировать хук useDispatch при каждом использовании
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
-export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
+export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector;
 
 // @ts-ignore
 window.store = store;

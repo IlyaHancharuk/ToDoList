@@ -3,8 +3,8 @@ import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
 import { Checkbox, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TaskType } from '../types';
-import { useDispatch } from 'react-redux';
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from '../store/reducers/tasksReducer';
+import { changeTaskStatusAC, changeTaskTitleAC, deleteTasksTC } from '../store/reducers/tasksReducer';
+import { useAppDispatch } from '../store/store';
 
 type TaskPropsType = {
     todoId: string;
@@ -15,10 +15,10 @@ export const TaskWithRedux: FC<TaskPropsType> = memo(({
     todoId,
     task
 }) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const removeTask = useCallback(() => {
-        dispatch(removeTaskAC(todoId, task.id));
+        dispatch(deleteTasksTC(todoId, task.id));
     }, [dispatch, todoId, task.id]);
 
     const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
