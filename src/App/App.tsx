@@ -10,6 +10,7 @@ import { addTaskTC } from './reducers/tasksReducer';
 import { addTodolistsTC, changeTodoListFilterAC, getTodolistsTC, removeTodolistsTC, updateTodolistsTitleTC } from './reducers/todoListsReducer';
 import { useAppDispatch, useAppSelector } from './store';
 import { RequestStatusType } from './reducers/appReducer';
+import { ErrorSnackbar } from '../components/ErrorSnackbar';
 
 const AppWithRedux = () => {
     const dispatch = useAppDispatch();
@@ -84,6 +85,7 @@ const AppWithRedux = () => {
                 <div className='todoLists-container'>
                     {todoListComponents}
                 </div>
+                <ErrorSnackbar />
             </main>
         </div>
     );
