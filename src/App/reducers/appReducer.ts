@@ -1,10 +1,11 @@
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
+import { RequestStatusType } from "../../types";
+
 export type AppStateType = typeof initialState;
 type ActionsType = AppSetStatusActionType | AppSetErrorActionType;
 
 const initialState = {
     status: 'loading' as RequestStatusType,
-    error: 'some error' as null | string
+    error: null as null | string
 }
 
 export const appReducer = (state: AppStateType = initialState, action: ActionsType): AppStateType => {

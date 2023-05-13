@@ -4,11 +4,12 @@ import IconButton from "@mui/material/IconButton";
 import { TextField } from "@mui/material";
 
 type AddItemFormPropsType = {
+    disabled: boolean;
     maxLength: number;
     addINewItem: (title: string) => void;
 }
 
-const AddItemForm: FC<AddItemFormPropsType> = memo(({ maxLength, addINewItem }) => {
+const AddItemForm: FC<AddItemFormPropsType> = memo(({ disabled, maxLength, addINewItem }) => {
     const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
 
@@ -38,6 +39,7 @@ const AddItemForm: FC<AddItemFormPropsType> = memo(({ maxLength, addINewItem }) 
                     margin="dense"
                     value={title}
                     error={error}
+                    disabled={disabled}
                     onChange={changeTaskTitle}
                     onKeyDown={onEnterHandler}
                      />

@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect } from "react";
 import Taskslist from "./Taskslist";
-import { FilterType, TaskType } from "../types";
+import { FilterType, RequestStatusType, TaskType } from "../types";
 import SuperEditableSpan from "../components/SupetEditableSpan/SuperEditableSpan";
 import AddItemForm from "../components/AddItemForn";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -14,6 +14,7 @@ type PropsToTodoType = {
     title: string;
     tasks: TaskType[];
     filter: FilterType;
+    entityStatus: RequestStatusType;
 
     addTask: (todoListId: string, title: string) => void;
 
@@ -28,6 +29,7 @@ const Todolist: React.FC<PropsToTodoType> = memo(({
     title,
     tasks,
     filter,
+    entityStatus,
 
     addTask,
 
@@ -78,13 +80,15 @@ const Todolist: React.FC<PropsToTodoType> = memo(({
                     value={title}
                     onChangeText={changeTodoListTitleHandler}
                 />
-                <IconButton onClick={removeTodoListHandler}>
+                <IconButton onClick={removeTodoListHandler}
+                            disabled={entityStatus === 'loading'}
+                >
                     <DeleteIcon />
                 </IconButton>
             </h3>
-            <AddItemForm
-                maxLength={15}
-                addINewItem={addTaskHandler}
+            <AddItemForm disabled={entityStatus === 'loading'}
+                         maxLength={200}
+                         addINewItem={addTaskHandler}
             />
             <Taskslist
                 todoId={todoId}

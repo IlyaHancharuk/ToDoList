@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { FilterType, TasksStateType, TodolistDomainType } from '../types';
+import { FilterType, RequestStatusType, TasksStateType, TodolistDomainType } from '../types';
 import './App.css';
 import Todolist from '../features/Todolist';
 import AddItemForm from '../components/AddItemForn';
@@ -9,7 +9,6 @@ import Paper from '@mui/material/Paper';
 import { addTaskTC } from './reducers/tasksReducer';
 import { addTodolistsTC, changeTodoListFilterAC, getTodolistsTC, removeTodolistsTC, updateTodolistsTitleTC } from './reducers/todoListsReducer';
 import { useAppDispatch, useAppSelector } from './store';
-import { RequestStatusType } from './reducers/appReducer';
 import { ErrorSnackbar } from '../components/ErrorSnackbar';
 
 const AppWithRedux = () => {
@@ -54,6 +53,7 @@ const AppWithRedux = () => {
                 title={todo.title}
                 tasks={tasks[todo.id]}
                 filter={todo.filter}
+                entityStatus={todo.entityStatus}
 
                 addTask={addTask}
 
@@ -76,11 +76,15 @@ const AppWithRedux = () => {
         <div className="App">
             <ResponsiveAppBar />
 
-            {status === 'loading' && <LinearProgress sx={progressBarStyle}/>}
+            {status === 'loading' && <LinearProgress  sx={progressBarStyle}/>}
+            {status === 'failed' && <LinearProgress color='error' sx={progressBarStyle}/>}
 
             <main className='main'>
                 <div className='addTodoForm-container'>
-                    <AddItemForm maxLength={15} addINewItem={addTodoList} />
+                    <AddItemForm disabled={status === 'loading'}
+                                 maxLength={15}
+                                 addINewItem={addTodoList}
+                    />
                 </div>
                 <div className='todoLists-container'>
                     {todoListComponents}

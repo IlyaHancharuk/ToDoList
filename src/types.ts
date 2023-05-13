@@ -29,6 +29,7 @@ export type TodolistType = {
 
 export type TodolistDomainType = TodolistType & {
     filter: FilterType;
+    entityStatus: RequestStatusType
 }
 
 export enum TaskStatuses {
@@ -63,3 +64,5 @@ export type UpdateDomainTaskModelType = {
     startDate?: string;
     deadline?: string;
 }
+
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';

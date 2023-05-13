@@ -1,9 +1,9 @@
 import { TaskType, TasksStateType, UpdateDomainTaskModelType, UpdateTaskModelType } from "../../types";
-import { AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType } from "./todoListsReducer";
+import { AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType, changeTodolistEntityStatusAC } from "./todoListsReducer";
 import { Dispatch } from "redux";
 import { todolistAPI } from "../../api/todolistAPI";
 import { AppRootStateType } from "../store";
-import { setAppStatusAC } from "./appReducer";
+import { setAppErrorAC, setAppStatusAC } from "./appReducer";
 
 export type AddTaskActionType = ReturnType<typeof addTaskAC>;
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
@@ -42,43 +42,43 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
     switch (action.type) {
         case "SET-TODOLIST": {
             const copyState = { ...state };
-            action.payload.todolists.forEach(todo => {
+            action.todolists.forEach(todo => {
                 copyState[todo.id] = []
             })
             return copyState;
         }
         case "ADD-TODOLIST": {
-            return { ...state, [action.payload.todolist.id]:[] };
+            return { ...state, [action.todolist.id]:[] };
         }
         case "REMOVE-TODOLIST": {
             // eslint-disable-next-line no-empty-pattern
-            const { [action.payload.todoListId]:[], ...rest } = {...state};
+            const { [action.todoListId]:[], ...rest } = {...state};
             return rest;
         }
         case "SET-TASKS": {
             return {
                 ...state,
-                [action.payload.todoListId]:action.payload.tasks
+                [action.todoListId]:action.tasks
             }
         }
         case 'ADD-TASK': {
             return {
                 ...state,
-                [action.payload.todoListId]: [action.payload.task, ...state[action.payload.todoListId]]
+                [action.todoListId]: [action.task, ...state[action.todoListId]]
             };
         }
         case "REMOVE-TASK": {
             return {
                 ...state,
-                [action.payload.todoListId]: state[action.payload.todoListId]
-                    .filter(t => t.id !== action.payload.id)
+                [action.todoListId]: state[action.todoListId]
+                    .filter(t => t.id !== action.id)
             }
         }
         case "UPDATE-TASK": {
             return {
-                ...state, [action.payload.todoListId]: state[action.payload.todoListId]
-                    .map(t => t.id === action.payload.id
-                        ? { ...t, ...action.payload.model }
+                ...state, [action.todoListId]: state[action.todoListId]
+                    .map(t => t.id === action.id
+                        ? { ...t, ...action.model }
                         : t)
             };
         }
@@ -90,48 +90,38 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
 export const addTaskAC = (todoListId: string, task: TaskType) => {
     return {
         type: 'ADD-TASK',
-        payload: {
-            todoListId,
-            task,
-        }
+        todoListId,
+        task
     } as const;
 };
 export const removeTaskAC = (todoListId: string, id: string) => {
     return {
         type: 'REMOVE-TASK',
-        payload: {
-            todoListId,
-            id,
-        }
+        todoListId,
+        id
     } as const;
 };
 export const changeTaskTitleAC = (todoListId: string, id: string, newTitle: string) => {
     return {
         type: 'CHANGE-TASK-TITLE',
-        payload: {
-            todoListId,
-            id,
-            newTitle,
-        }
+        todoListId,
+        id,
+        newTitle
     } as const;
 };
 export const updateTaskAC = (todoListId: string, id: string, model: UpdateDomainTaskModelType) => {
     return {
         type: 'UPDATE-TASK',
-        payload: {
-            todoListId,
-            id,
-            model,
-        }
+        todoListId,
+        id,
+        model
     } as const;
 };
 export const setTasksAC = (todoListId: string, tasks: TaskType[]) => {
     return {
         type: "SET-TASKS",
-        payload: {
-            todoListId,
-            tasks
-        }
+        todoListId,
+        tasks
     } as const;
 };
 
@@ -148,17 +138,37 @@ export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: D
     dispatch(setAppStatusAC('loading'));
     todolistAPI.deleteTask(todolistId, taskId)
         .then(res => {
-            dispatch(removeTaskAC(todolistId, taskId));
-            dispatch(setAppStatusAC('succeeded'));
+            if (res.data.resultCode === 0) {
+                dispatch(removeTaskAC(todolistId, taskId));
+                dispatch(setAppStatusAC('succeeded'));
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setAppErrorAC(res.data.messages[0]))
+                } else {
+                    dispatch(setAppErrorAC('Some error occurred'))
+                }
+                dispatch(setAppStatusAC('failed'));
+            }
         });
 };
 
 export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'));
+    dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'));
     todolistAPI.createTask(todolistId, title)
         .then(res => {
-            dispatch(addTaskAC(todolistId, res.data.data.item));
-            dispatch(setAppStatusAC('succeeded'));
+            if (res.data.resultCode === 0) {
+                dispatch(addTaskAC(todolistId, res.data.data.item));
+                dispatch(setAppStatusAC('succeeded'));
+                dispatch(changeTodolistEntityStatusAC(todolistId, 'succeeded'));
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setAppErrorAC(res.data.messages[0]))
+                } else {
+                    dispatch(setAppErrorAC('Some error occurred'))
+                }
+                dispatch(setAppStatusAC('failed'));
+            }
         });
 };
 
