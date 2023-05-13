@@ -1,7 +1,7 @@
 import { RequestStatusType } from "../../types";
 
 export type AppStateType = typeof initialState;
-type ActionsType = AppSetStatusActionType | AppSetErrorActionType;
+type ActionsType = SetAppErrorActionType | SetAppStatusActionType;
 
 const initialState = {
     status: 'loading' as RequestStatusType,
@@ -21,7 +21,7 @@ export const appReducer = (state: AppStateType = initialState, action: ActionsTy
     }
 }
 
-export type AppSetStatusActionType = ReturnType<typeof setAppStatusAC>;
+export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>;
 export const setAppStatusAC = (status: RequestStatusType) => {
     return {
         type: "APP/SET-STATUS",
@@ -29,7 +29,7 @@ export const setAppStatusAC = (status: RequestStatusType) => {
     } as const
 }
 
-export type AppSetErrorActionType = ReturnType<typeof setAppErrorAC>;
+export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>;
 export const setAppErrorAC = (error: null | string) => {
     return {
         type: "APP/SET-ERROR",

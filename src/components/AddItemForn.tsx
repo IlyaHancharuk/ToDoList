@@ -42,7 +42,7 @@ const AddItemForm: FC<AddItemFormPropsType> = memo(({ disabled, maxLength, addIN
                     disabled={disabled}
                     onChange={changeTaskTitle}
                     onKeyDown={onEnterHandler}
-                     />
+                />
                 <IconButton onClick={addItem} disabled={isAddBtnDisable} color="primary">
                     <AddTaskIcon />
                 </IconButton>

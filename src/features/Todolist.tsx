@@ -36,8 +36,7 @@ const Todolist: React.FC<PropsToTodoType> = memo(({
     changeTodoListFilter,
     changeTodoListTitle,
     removeTodoList
-}
-) => {
+}) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {

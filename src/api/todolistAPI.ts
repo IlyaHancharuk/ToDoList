@@ -18,7 +18,7 @@ type TasksResponseType = {
     totalCount: number
     error: string | null
 }
-type ResponseType<DataType = {}> = {
+export type ResponseType<DataType = {}> = {
     resultCode: number
     messages: Array<string>
     fieldsErrors: Array<string>

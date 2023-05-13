@@ -6,12 +6,12 @@ import AddItemForm from '../components/AddItemForn';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import LinearProgress from '@mui/material/LinearProgress';
 import Paper from '@mui/material/Paper';
-import { addTaskTC } from './reducers/tasksReducer';
 import { addTodolistsTC, changeTodoListFilterAC, getTodolistsTC, removeTodolistsTC, updateTodolistsTitleTC } from './reducers/todoListsReducer';
 import { useAppDispatch, useAppSelector } from './store';
 import { ErrorSnackbar } from '../components/ErrorSnackbar';
+import { addTaskTC } from './reducers/tasksReducer';
 
-const AppWithRedux = () => {
+const App = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -19,18 +19,14 @@ const AppWithRedux = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    //localState
     const todoLists = useAppSelector<TodolistDomainType[]>(state => state.todolists);
     const tasks = useAppSelector<TasksStateType>(state => state.tasks);
     const status = useAppSelector<RequestStatusType>(state => state.app.status);
 
-    //methods for tasks
     const addTask = useCallback((todoListId: string, title: string) => {
         dispatch(addTaskTC(todoListId, title));
     }, [dispatch]);
 
-
-    //methods for todolists
     const addTodoList = useCallback((title: string) => {
         dispatch(addTodolistsTC(title));
     }, [dispatch]);
@@ -44,7 +40,6 @@ const AppWithRedux = () => {
         dispatch(changeTodoListFilterAC(todoListId, filter));
     },[dispatch]);
 
-    //UI:
     const todoListComponents: JSX.Element[] | JSX.Element = todoLists.map(todo => (
         <Paper key={todo.id + '-paper'} style={{ height: 'fit-content' }} elevation={5}>
             <Todolist
@@ -95,4 +90,4 @@ const AppWithRedux = () => {
     );
 };
 
-export default AppWithRedux;
+export default App;
