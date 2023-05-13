@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC, memo, useCallback } from 'react';
 import SuperEditableSpan from "../components/SupetEditableSpan/SuperEditableSpan";
-import { Checkbox, IconButton } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Checkbox from "@mui/material/Checkbox";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TaskStatuses, TaskType } from '../types';
 import { removeTaskTC, updateTaskTC } from '../App/reducers/tasksReducer';

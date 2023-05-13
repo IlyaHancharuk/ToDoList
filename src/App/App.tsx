@@ -4,10 +4,12 @@ import './App.css';
 import Todolist from '../features/Todolist';
 import AddItemForm from '../components/AddItemForn';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
-import { LinearProgress, Paper } from '@mui/material';
+import LinearProgress from '@mui/material/LinearProgress';
+import Paper from '@mui/material/Paper';
 import { addTaskTC } from './reducers/tasksReducer';
 import { addTodolistsTC, changeTodoListFilterAC, getTodolistsTC, removeTodolistsTC, updateTodolistsTitleTC } from './reducers/todoListsReducer';
 import { useAppDispatch, useAppSelector } from './store';
+import { RequestStatusType } from './reducers/appReducer';
 
 const AppWithRedux = () => {
     const dispatch = useAppDispatch();
@@ -20,6 +22,7 @@ const AppWithRedux = () => {
     //localState
     const todoLists = useAppSelector<TodolistDomainType[]>(state => state.todolists);
     const tasks = useAppSelector<TasksStateType>(state => state.tasks);
+    const status = useAppSelector<RequestStatusType>(state => state.app.status);
 
     //methods for tasks
     const addTask = useCallback((todoListId: string, title: string) => {
@@ -61,10 +64,19 @@ const AppWithRedux = () => {
         </Paper>
     ));
 
+    const progressBarStyle = {
+        position: 'absolute',
+        top: '64px',
+        left: '0',
+        width: '100%'
+    }
+
     return (
         <div className="App">
             <ResponsiveAppBar />
-            <LinearProgress />
+
+            {status === 'loading' && <LinearProgress sx={progressBarStyle}/>}
+
             <main className='main'>
                 <div className='addTodoForm-container'>
                     <AddItemForm maxLength={15} addINewItem={addTodoList} />

@@ -4,7 +4,7 @@ import { FilterType, TaskType } from "../types";
 import SuperEditableSpan from "../components/SupetEditableSpan/SuperEditableSpan";
 import AddItemForm from "../components/AddItemForn";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { IconButton } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import { FilterButton } from "../components/FilterButton";
 import { useAppDispatch } from "../App/store";
 import { getTasksTC } from "../App/reducers/tasksReducer";

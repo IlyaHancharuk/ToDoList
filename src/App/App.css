@@ -141,3 +141,10 @@
 .error-message {
     color: crimson;
 }
+
+.loadingProgressBar {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+}
