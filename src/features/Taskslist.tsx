@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { TaskWithRedux } from "./TaskWithRedux";
+import { TaskWithRedux } from "./Task";
 import { TaskType } from "../types";
 
 type TaskListPropsType = {

@@ -1,9 +1,9 @@
 import React from 'react';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import AppWithRedux from './components/AppWithRedux';
+import App from './App/App';
 import { Provider } from 'react-redux';
-import { store } from './store/store';
+import { store } from './App/store';
 import { createRoot } from 'react-dom/client';
 
 const root = createRoot(
@@ -12,7 +12,7 @@ const root = createRoot(
 
 root.render(
     <Provider store={store}>
-       <AppWithRedux/>
+       <App/>
     </Provider>,
 );
 

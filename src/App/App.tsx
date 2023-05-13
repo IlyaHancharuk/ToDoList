@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
 import { FilterType, TasksStateType, TodolistDomainType } from '../types';
 import './App.css';
-import Todolist from './Todolist';
-import AddItemForm from './AddItemForn';
-import ResponsiveAppBar from './ResponsiveAppBar';
-import { Paper } from '@mui/material';
-import { addTaskTC } from '../store/reducers/tasksReducer';
-import { addTodolistsTC, changeTodoListFilterAC, getTodolistsTC, removeTodolistsTC, updateTodolistsTitleTC } from '../store/reducers/todoListsReducer';
-import { useAppDispatch, useAppSelector } from '../store/store';
+import Todolist from '../features/Todolist';
+import AddItemForm from '../components/AddItemForn';
+import ResponsiveAppBar from '../components/ResponsiveAppBar';
+import { LinearProgress, Paper } from '@mui/material';
+import { addTaskTC } from './reducers/tasksReducer';
+import { addTodolistsTC, changeTodoListFilterAC, getTodolistsTC, removeTodolistsTC, updateTodolistsTitleTC } from './reducers/todoListsReducer';
+import { useAppDispatch, useAppSelector } from './store';
 
 const AppWithRedux = () => {
     const dispatch = useAppDispatch();
@@ -64,6 +64,7 @@ const AppWithRedux = () => {
     return (
         <div className="App">
             <ResponsiveAppBar />
+            <LinearProgress />
             <main className='main'>
                 <div className='addTodoForm-container'>
                     <AddItemForm maxLength={15} addINewItem={addTodoList} />

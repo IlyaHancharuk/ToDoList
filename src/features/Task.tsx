@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FC, memo, useCallback } from 'react';
-import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
+import SuperEditableSpan from "../components/SupetEditableSpan/SuperEditableSpan";
 import { Checkbox, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TaskStatuses, TaskType } from '../types';
-import { removeTaskTC, updateTaskTC } from '../store/reducers/tasksReducer';
-import { useAppDispatch } from '../store/store';
+import { removeTaskTC, updateTaskTC } from '../App/reducers/tasksReducer';
+import { useAppDispatch } from '../App/store';
 
 type TaskPropsType = {
     todoId: string;

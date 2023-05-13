@@ -3,7 +3,7 @@ import { AnyAction, applyMiddleware, combineReducers, legacy_createStore as crea
 import { TodoListsActionsType, todoListsReducer } from './reducers/todoListsReducer';
 import { TasksActionsType, tasksReducer } from './reducers/tasksReducer';
 import thunk from 'redux-thunk';
-import { ThunkDispatch } from "../../node_modules/redux-thunk/es/types";
+import { ThunkDispatch } from "redux-thunk/es/types";
 import { TypedUseSelectorHook, useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 

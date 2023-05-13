@@ -1,13 +1,13 @@
 import React, { memo, useCallback, useEffect } from "react";
 import Taskslist from "./Taskslist";
 import { FilterType, TaskType } from "../types";
-import SuperEditableSpan from "./SupetEditableSpan/SuperEditableSpan";
-import AddItemForm from "./AddItemForn";
+import SuperEditableSpan from "../components/SupetEditableSpan/SuperEditableSpan";
+import AddItemForm from "../components/AddItemForn";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from "@mui/material";
-import { FilterButton } from "./FilterButton";
-import { useAppDispatch } from "../store/store";
-import { getTasksTC } from "../store/reducers/tasksReducer";
+import { FilterButton } from "../components/FilterButton";
+import { useAppDispatch } from "../App/store";
+import { getTasksTC } from "../App/reducers/tasksReducer";
 
 type PropsToTodoType = {
     todoId: string;

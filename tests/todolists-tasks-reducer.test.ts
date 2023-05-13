@@ -1,4 +1,4 @@
-import { TasksStateType } from "../../types";
+import { TasksStateType } from "../src/types";
 // import { tasksReducer } from "./tasksReducer";
 // import { addTodoListAC, removeTodoListAC, todoListsReducer } from "./todoListsReducer";
 
