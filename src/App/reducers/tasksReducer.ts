@@ -5,7 +5,7 @@ import { todolistAPI } from "../../api/todolistAPI";
 import { AppRootStateType } from "../store";
 import { setAppErrorAC, setAppStatusAC } from "./appReducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/errorUtils";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 
 export type AddTaskActionType = ReturnType<typeof addTaskAC>;
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
@@ -164,11 +164,11 @@ export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: D
         });
 };
 
-export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+export const addTaskTC = (todolistId: string, title: string) => async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'));
     dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'));
-    todolistAPI.createTask(todolistId, title)
-        .then(res => {
+    const res = await todolistAPI.createTask(todolistId, title)
+        try {
             if (res.data.resultCode === 0) {
                 dispatch(addTaskAC(todolistId, res.data.data.item));
                 dispatch(setAppStatusAC('succeeded'));
@@ -176,10 +176,12 @@ export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispa
             } else {
                 handleServerAppError<{ item: TaskType }>(res.data, dispatch);
             }
-        })
-        .catch((e: AxiosError) => {
-            handleServerNetworkError(e, dispatch);
-        });
+        }
+        catch (e) {
+            if (axios.isAxiosError(e)) {
+                handleServerNetworkError(e, dispatch);
+            }
+        }
 };
 
 export const updateTaskTC = (todolistId: string, taskId: string, domainModel: UpdateDomainTaskModelType) => (
